@@ -19,7 +19,7 @@ const talks = defineCollection({
   schema: z.object({
     title: z.string(),
     event: z.string(),
-    eventType: z.enum(['conference', 'summit', 'webinar', 'meetup', 'workshop']),
+    eventType: z.enum(['conference', 'summit', 'webinar', 'meetup', 'workshop', 'chalk_talk', 'builder_session', 'code_talk']),
     date: z.coerce.date(),
     location: z.string().optional(),
     description: z.string(),
@@ -28,6 +28,7 @@ const talks = defineCollection({
     videoUrl: z.string().optional(),
     blogUrl: z.string().optional(),
     featured: z.boolean().default(false),
+    sessionId: z.string().optional(),
   }),
 });
 

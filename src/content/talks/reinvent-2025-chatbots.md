@@ -2,7 +2,7 @@
 title: "Build serverless chatbots using Amazon ElastiCache & Aurora PostgreSQL"
 event: "AWS re:Invent 2025"
 eventType: "conference"
-date: 2025-12-01
+date: 2025-12-07
 location: "Las Vegas, NV"
 description: "Learn how to build scalable, serverless chatbot applications using Amazon ElastiCache for caching and Amazon Aurora PostgreSQL with pgvector for semantic search and AI capabilities."
 tags: ["AWS re:Invent", "Amazon Aurora", "ElastiCache", "Chatbots", "Serverless", "GenAI"]

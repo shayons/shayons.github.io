@@ -6,14 +6,17 @@ interface Props {
 }
 
 const { talk } = Astro.props;
-const { title, event, eventType, date, location, description, tags, slidesUrl, videoUrl, blogUrl } = talk.data;
+const { title, event, eventType, date, location, description, tags, slidesUrl, videoUrl, blogUrl, sessionId } = talk.data;
 
-const eventTypeLabels = {
+const eventTypeLabels: Record<string, string> = {
   conference: 'Conference',
   summit: 'Summit',
   webinar: 'Webinar',
   meetup: 'Meetup',
   workshop: 'Workshop',
+  chalk_talk: 'Chalk Talk',
+  builder_session: 'Builder Session',
+  code_talk: 'Code Talk',
 };
 
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
@@ -36,7 +39,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
       <circle cx="12" cy="10" r="3"></circle>
     </svg>
-    <span>{event}{location ? ` · ${location}` : ''}</span>
+    <span>{event}{sessionId ? ` · ${sessionId}` : ''}{location ? ` · ${location}` : ''}</span>
   </div>
 
   <p class="talk-description">{description}</p>
@@ -110,6 +113,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   .talk-card {
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .talk-header {
@@ -142,6 +146,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     font-weight: 600;
     line-height: 1.4;
     margin-bottom: var(--space-sm);
+    min-height: 3.15em;
   }
 
   .talk-event {
@@ -163,6 +168,11 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     color: var(--color-text-secondary);
     line-height: 1.6;
     flex-grow: 1;
+  }
+
+  .tags {
+    margin-top: auto;
+    padding-top: var(--space-md);
   }
 
   .talk-links {

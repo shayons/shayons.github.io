@@ -4,12 +4,19 @@ import TalkCard from '../components/TalkCard.astro';
 import { getCollection } from 'astro:content';
 
 const allTalks = await getCollection('talks');
-const sortedTalks = allTalks.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-// Extract unique tags
-const allTags = [...new Set(allTalks.flatMap(talk => talk.data.tags))].sort();
+// Separate main talks from other session formats
+const otherFormats = ['chalk_talk', 'builder_session', 'code_talk', 'workshop'];
+const mainTalks = allTalks.filter(talk => !otherFormats.includes(talk.data.eventType));
+const otherSessions = allTalks.filter(talk => otherFormats.includes(talk.data.eventType));
 
-// Group talks by year
+const sortedTalks = mainTalks.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const sortedOtherSessions = otherSessions.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Extract unique tags (from main talks only)
+const allTags = [...new Set(mainTalks.flatMap(talk => talk.data.tags))].sort();
+
+// Group main talks by year
 const talksByYear = sortedTalks.reduce((acc, talk) => {
   const year = new Date(talk.data.date).getFullYear();
   if (!acc[year]) acc[year] = [];
@@ -71,6 +78,26 @@ const years = Object.keys(talksByYear).sort((a, b) => Number(b) - Number(a));
       </div>
     </div>
   </section>
+
+  <!-- Other Session Formats Section -->
+  {sortedOtherSessions.length > 0 && (
+    <section class="section other-sessions-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Other Session Formats</h2>
+          <p class="section-subtitle">
+            Chalk talks, workshops, builder sessions, and code talks at AWS re:Invent and other events
+          </p>
+        </div>
+
+        <div class="sessions-grid">
+          {sortedOtherSessions.map((session) => (
+            <TalkCard talk={session} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </BaseLayout>
 
 <script>
@@ -195,6 +222,14 @@ const years = Object.keys(talksByYear).sort((a, b) => Number(b) - Number(a));
     gap: var(--space-lg);
   }
 
+  .talk-wrapper {
+    height: 100%;
+  }
+
+  .talk-wrapper :global(.card) {
+    height: 100%;
+  }
+
   .no-results {
     text-align: center;
     padding: var(--space-3xl);
@@ -206,8 +241,24 @@ const years = Object.keys(talksByYear).sort((a, b) => Number(b) - Number(a));
     max-width: none;
   }
 
+  .other-sessions-section {
+    background: var(--color-bg-elevated);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .sessions-grid :global(.card) {
+    height: 100%;
+  }
+
   @media (max-width: 768px) {
-    .talks-grid {
+    .talks-grid,
+    .sessions-grid {
       grid-template-columns: 1fr;
     }
   }
