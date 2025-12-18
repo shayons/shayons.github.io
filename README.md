@@ -1,4 +1,4 @@
-# shayons.github.io
+# Databases, Agentic AI & Everything In Between
 
 Personal website of **Shayon Sanyal** — Principal Solutions Architect at AWS, specializing in Databases & Agentic AI.
 
