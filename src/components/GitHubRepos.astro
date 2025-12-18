@@ -224,7 +224,7 @@ const languageColors: Record<string, string> = {
 <style>
   .repos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
     gap: var(--space-lg);
   }
 
@@ -233,6 +233,7 @@ const languageColors: Record<string, string> = {
     flex-direction: column;
     text-decoration: none;
     color: inherit;
+    overflow: hidden;
   }
 
   .repo-header {
@@ -240,6 +241,8 @@ const languageColors: Record<string, string> = {
     align-items: center;
     gap: var(--space-sm);
     margin-bottom: var(--space-sm);
+    min-width: 0;
+    overflow: hidden;
   }
 
   .repo-icon {
@@ -249,12 +252,13 @@ const languageColors: Record<string, string> = {
 
   .repo-name {
     font-family: var(--font-mono);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--color-accent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
   }
 
   .repo-description {
