@@ -8,8 +8,8 @@ export async function GET(context) {
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
-    title: 'Your Name | Blog',
-    description: 'Technical articles on databases, cloud architecture, and AI',
+    title: 'Shayon Sanyal | Databases & AI',
+    description: 'Technical articles on databases, agentic AI, and cloud architecture from a Principal Solutions Architect at AWS',
     site: context.site,
     items: sortedPosts.map((post) => ({
       title: post.data.title,
