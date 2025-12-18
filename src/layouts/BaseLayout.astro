@@ -49,6 +49,9 @@ const fullTitle = title === 'Home' ? 'Shayon Sanyal | Databases & AI' : `${title
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
     
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Shayon Sanyal's Blog" href="/rss.xml" />
+
     <!-- Theme handling - prevents flash -->
     <script is:inline>
       const theme = (() => {

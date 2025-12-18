@@ -79,8 +79,32 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
         Blog Post
       </a>
     )}
+    <button class="talk-link copy-link-btn" data-title={title} data-video={videoUrl || ''}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+      </svg>
+      <span class="copy-text">Copy Link</span>
+    </button>
   </div>
 </article>
+
+<script>
+  document.querySelectorAll('.copy-link-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const videoUrl = btn.getAttribute('data-video');
+      const url = videoUrl || window.location.href;
+      try {
+        await navigator.clipboard.writeText(url);
+        const textEl = btn.querySelector('.copy-text');
+        textEl.textContent = 'Copied!';
+        setTimeout(() => textEl.textContent = 'Copy Link', 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    });
+  });
+</script>
 
 <style>
   .talk-card {
@@ -161,6 +185,18 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   }
 
   .talk-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .copy-link-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+  }
+
+  .copy-link-btn:hover {
     color: var(--color-accent-hover);
   }
 </style>

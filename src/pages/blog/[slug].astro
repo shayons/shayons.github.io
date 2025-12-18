@@ -57,6 +57,14 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
             ))}
           </div>
         )}
+
+        <button class="copy-link-btn" id="copyLinkBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+          <span class="copy-text">Copy Link</span>
+        </button>
       </div>
     </header>
 
@@ -209,4 +217,41 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
     font-weight: 600;
     color: var(--color-text);
   }
+
+  .copy-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--color-accent);
+    background: none;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+    cursor: pointer;
+    margin-top: var(--space-lg);
+    transition: all var(--transition-fast);
+  }
+
+  .copy-link-btn:hover {
+    background: var(--color-accent-subtle);
+  }
 </style>
+
+<script>
+  const btn = document.getElementById('copyLinkBtn');
+  btn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      const textEl = btn.querySelector('.copy-text');
+      if (textEl) {
+        textEl.textContent = 'Copied!';
+        setTimeout(() => textEl.textContent = 'Copy Link', 2000);
+      }
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+</script>
