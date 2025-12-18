@@ -120,8 +120,11 @@ const expertise: ExpertiseItem[] = [
   }
 
   .about-intro strong {
-    color: var(--color-accent);
     font-weight: 600;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .about-text p {
@@ -218,7 +221,8 @@ const expertise: ExpertiseItem[] = [
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--color-accent);
+    object-position: center 20%;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(192, 38, 211, 0.15);
   }
 
   .profile-info {
@@ -233,9 +237,12 @@ const expertise: ExpertiseItem[] = [
   }
 
   .profile-role {
-    color: var(--color-accent);
     font-weight: 500;
     font-size: 0.9375rem;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .profile-company {

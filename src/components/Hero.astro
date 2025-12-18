@@ -98,7 +98,10 @@ const { name, title, tagline } = Astro.props;
   .hero-title {
     font-family: var(--font-mono);
     font-size: clamp(1rem, 2vw, 1.25rem);
-    color: var(--color-accent);
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin-bottom: var(--space-lg);
   }
 
