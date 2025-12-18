@@ -55,7 +55,7 @@ const { name, title, tagline } = Astro.props;
   .hero-content {
     position: relative;
     z-index: 1;
-    padding: var(--space-4xl) 0;
+    padding: var(--space-4xl) var(--space-lg);
   }
 
   .hero-badge {
@@ -152,9 +152,18 @@ const { name, title, tagline } = Astro.props;
     .hero {
       min-height: auto;
     }
-    
+
     .hero-content {
-      padding: var(--space-2xl) 0;
+      padding: var(--space-2xl) var(--space-md);
+    }
+
+    .hero-name {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .hero-tagline {
+      max-width: 100%;
     }
   }
 </style>
