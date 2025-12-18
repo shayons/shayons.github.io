@@ -4,12 +4,12 @@
    ========================================== */
 
 /* Google Fonts - loaded in BaseLayout */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   /* Typography */
-  --font-display: 'Instrument Serif', Georgia, serif;
-  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-display: 'Nunito', system-ui, sans-serif;
+  --font-body: 'Lora', Georgia, serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Spacing scale */
@@ -126,9 +126,9 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 h1 {
