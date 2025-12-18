@@ -90,9 +90,12 @@ try {
   if (response.ok) {
     const allRepos = await response.json();
 
+    // Get names of manually curated repos to exclude from auto-fetch
+    const curatedNames = PERSONAL_REPOS.map(r => r.name);
+
     // Filter and sort repos
     personalRepos = allRepos
-      .filter((repo: any) => !repo.fork && !repo.archived)
+      .filter((repo: any) => !repo.fork && !repo.archived && !curatedNames.includes(repo.name))
       .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
       .slice(0, 2)
       .map((repo: any) => ({
