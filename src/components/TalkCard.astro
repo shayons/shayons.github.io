@@ -1,0 +1,166 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  talk: CollectionEntry<'talks'>;
+}
+
+const { talk } = Astro.props;
+const { title, event, eventType, date, location, description, tags, slidesUrl, videoUrl, blogUrl } = talk.data;
+
+const eventTypeLabels = {
+  conference: 'Conference',
+  summit: 'Summit',
+  webinar: 'Webinar',
+  meetup: 'Meetup',
+  workshop: 'Workshop',
+};
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<article class="talk-card card">
+  <div class="talk-header">
+    <span class="talk-type">{eventTypeLabels[eventType]}</span>
+    <time class="talk-date" datetime={date.toISOString()}>{formattedDate}</time>
+  </div>
+
+  <h3 class="talk-title">{title}</h3>
+  
+  <div class="talk-event">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    <span>{event}{location ? ` · ${location}` : ''}</span>
+  </div>
+
+  <p class="talk-description">{description}</p>
+
+  {tags.length > 0 && (
+    <div class="tags">
+      {tags.map((tag) => (
+        <span class="tag" data-tag={tag}>{tag}</span>
+      ))}
+    </div>
+  )}
+
+  <div class="talk-links">
+    {slidesUrl && (
+      <a href={slidesUrl} target="_blank" rel="noopener noreferrer" class="talk-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        Slides
+      </a>
+    )}
+    {videoUrl && (
+      <a href={videoUrl} target="_blank" rel="noopener noreferrer" class="talk-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        Watch Video
+      </a>
+    )}
+    {blogUrl && (
+      <a href={blogUrl} target="_blank" rel="noopener noreferrer" class="talk-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+        </svg>
+        Blog Post
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .talk-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .talk-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+  }
+
+  .talk-type {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    background: var(--color-accent-subtle);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+  }
+
+  .talk-date {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .talk-title {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: var(--space-sm);
+  }
+
+  .talk-event {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+  }
+
+  .talk-event svg {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .talk-description {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+
+  .talk-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .talk-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    transition: color var(--transition-fast);
+  }
+
+  .talk-link:hover {
+    color: var(--color-accent-hover);
+  }
+</style>

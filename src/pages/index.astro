@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import AboutSection from '../components/AboutSection.astro';
+import GitHubRepos from '../components/GitHubRepos.astro';
+import ContactSection from '../components/ContactSection.astro';
+import TalkCard from '../components/TalkCard.astro';
+import { getCollection } from 'astro:content';
+
+// Get featured talks
+const allTalks = await getCollection('talks');
+const featuredTalks = allTalks
+  .filter(talk => talk.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+// Get recent blog posts
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Home">
+  <Hero
+    name="Shayon Sanyal"
+    title="Principal Solutions Architect - Databases & Agentic AI @AWS"
+    tagline="Bridging the worlds of databases and AI to help organizations build intelligent, data-driven applications. Speaker, author, and open source advocate."
+  />
+  
+  <AboutSection />
+  
+  <GitHubRepos />
+
+  <!-- Featured Talks Section -->
+  {featuredTalks.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Featured Talks</h2>
+          <p class="section-subtitle">Recent conference sessions and presentations</p>
+        </div>
+
+        <div class="grid grid-3">
+          {featuredTalks.map((talk) => (
+            <TalkCard talk={talk} />
+          ))}
+        </div>
+
+        <div class="section-cta">
+          <a href="/talks" class="btn btn-ghost">
+            View All Talks
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Recent Blog Posts Section -->
+  {recentPosts.length > 0 && (
+    <section class="section blog-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Latest Writing</h2>
+          <p class="section-subtitle">Technical articles and insights</p>
+        </div>
+
+        <div class="blog-grid">
+          {recentPosts.map((post) => (
+            <a 
+              href={post.data.external ? post.data.externalUrl : `/blog/${post.slug}`} 
+              target={post.data.external ? '_blank' : undefined}
+              rel={post.data.external ? 'noopener noreferrer' : undefined}
+              class="blog-card card"
+            >
+              <div class="blog-meta">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+                {post.data.external && (
+                  <span class="external-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    External
+                  </span>
+                )}
+              </div>
+              <h3 class="blog-title">{post.data.title}</h3>
+              <p class="blog-description">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <div class="tags">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+
+        <div class="section-cta">
+          <a href="/blog" class="btn btn-ghost">
+            View All Posts
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ContactSection />
+</BaseLayout>
+
+<style>
+  .section-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-2xl);
+  }
+
+  .blog-section {
+    background: var(--color-bg);
+  }
+
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .external-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-accent);
+    font-size: 0.75rem;
+  }
+
+  .blog-title {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: var(--space-sm);
+    transition: color var(--transition-fast);
+  }
+
+  .blog-card:hover .blog-title {
+    color: var(--color-accent);
+  }
+
+  .blog-description {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+</style>

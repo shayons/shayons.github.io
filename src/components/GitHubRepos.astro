@@ -1,0 +1,332 @@
+---
+// This component fetches repos at build time
+// Set your GitHub username here
+const GITHUB_USERNAME = 'shayons';
+
+interface Repo {
+  name: string;
+  description: string;
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  language: string;
+  topics: string[];
+}
+
+// Featured AWS Samples repos (manually curated)
+const AWS_SAMPLES_REPOS: Repo[] = [
+  {
+    name: 'aurora-postgresql-pgvector',
+    description: 'Enterprise-ready Generative AI use cases powered by pgvector, Amazon Aurora PostgreSQL, Amazon Bedrock, and AWS MCP servers',
+    html_url: 'https://github.com/aws-samples/aurora-postgresql-pgvector',
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    topics: ['pgvector', 'aurora', 'bedrock', 'genai'],
+  },
+  {
+    name: 'sample-dat309-agentic-workflows-aurora-mcp',
+    description: 'ClickShop: Demo showing agentic architecture evolution from single agent to multi-agent systems with Aurora PostgreSQL and MCP',
+    html_url: 'https://github.com/aws-samples/sample-dat309-agentic-workflows-aurora-mcp',
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    topics: ['agentic-ai', 'mcp', 'aurora', 'strands'],
+  },
+  {
+    name: 'sample-dat406-build-agentic-ai-powered-search-apg',
+    description: 'AWS re:Invent 2025 workshop: Build agentic AI-powered search with Aurora PostgreSQL, pgvector, and multi-agent orchestration',
+    html_url: 'https://github.com/aws-samples/sample-dat406-build-agentic-ai-powered-search-apg',
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    topics: ['agentic-ai', 'pgvector', 'semantic-search', 'reinvent'],
+  },
+  {
+    name: 'sample-dat409-hybrid-search-aurora-mcp',
+    description: 'AWS re:Invent 2025 workshop: Hybrid search with Aurora PostgreSQL combining fuzzy matching, semantic search, and MCP integration',
+    html_url: 'https://github.com/aws-samples/sample-dat409-hybrid-search-aurora-mcp',
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    topics: ['hybrid-search', 'mcp', 'aurora', 'reinvent'],
+  },
+];
+
+// Manually curated personal repos
+const PERSONAL_REPOS: Repo[] = [
+  {
+    name: 'postgres-agents-cookbook',
+    description: 'Cookbook for building AI agents with PostgreSQL',
+    html_url: 'https://github.com/shayons/postgres-agents-cookbook',
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'Python',
+    topics: ['postgres', 'agents', 'ai'],
+  },
+  {
+    name: 'shayons.github.io',
+    description: 'Personal website - Databases, agentic AI, and everything in between',
+    html_url: 'https://github.com/shayons/shayons.github.io',
+    stargazers_count: 0,
+    forks_count: 0,
+    language: 'TypeScript',
+    topics: ['portfolio', 'astro'],
+  },
+];
+
+let personalRepos: Repo[] = [];
+
+try {
+  const response = await fetch(
+    `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`,
+    {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+      },
+    }
+  );
+
+  if (response.ok) {
+    const allRepos = await response.json();
+
+    // Filter and sort repos
+    personalRepos = allRepos
+      .filter((repo: any) => !repo.fork && !repo.archived)
+      .sort((a: any, b: any) => b.stargazers_count - a.stargazers_count)
+      .slice(0, 2)
+      .map((repo: any) => ({
+        name: repo.name,
+        description: repo.description || 'No description provided',
+        html_url: repo.html_url,
+        stargazers_count: repo.stargazers_count,
+        forks_count: repo.forks_count,
+        language: repo.language || 'Unknown',
+        topics: repo.topics || [],
+      }));
+  }
+} catch (error) {
+  console.error('Failed to fetch GitHub repos:', error);
+}
+
+// Combine AWS samples (featured first), curated personal repos, then auto-fetched repos
+const repos = [...AWS_SAMPLES_REPOS, ...PERSONAL_REPOS, ...personalRepos];
+
+// Language colors
+const languageColors: Record<string, string> = {
+  TypeScript: '#3178c6',
+  JavaScript: '#f7df1e',
+  Python: '#3572A5',
+  Rust: '#dea584',
+  Go: '#00ADD8',
+  Java: '#b07219',
+  'C++': '#f34b7d',
+  C: '#555555',
+  Shell: '#89e051',
+  Ruby: '#701516',
+  PHP: '#4F5D95',
+  Swift: '#F05138',
+  Kotlin: '#A97BFF',
+  Scala: '#c22d40',
+  Unknown: '#858585',
+};
+---
+
+<section id="projects" class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-subtitle">Open source work and side projects</p>
+    </div>
+
+    {repos.length > 0 ? (
+      <div class="repos-grid">
+        {repos.map((repo) => (
+          <a href={repo.html_url} target="_blank" rel="noopener noreferrer" class="repo-card card">
+            <div class="repo-header">
+              <svg class="repo-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <h3 class="repo-name">{repo.name}</h3>
+            </div>
+            
+            <p class="repo-description">{repo.description}</p>
+            
+            <div class="repo-footer">
+              <div class="repo-stats">
+                {repo.language && (
+                  <span class="repo-language">
+                    <span 
+                      class="language-dot" 
+                      style={`background-color: ${languageColors[repo.language] || languageColors.Unknown}`}
+                    ></span>
+                    {repo.language}
+                  </span>
+                )}
+                
+                {repo.stargazers_count > 0 && (
+                  <span class="repo-stat">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+                    </svg>
+                    {repo.stargazers_count}
+                  </span>
+                )}
+                
+                {repo.forks_count > 0 && (
+                  <span class="repo-stat">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="18" r="3"></circle>
+                      <circle cx="6" cy="6" r="3"></circle>
+                      <circle cx="18" cy="6" r="3"></circle>
+                      <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"></path>
+                      <path d="M12 12v3"></path>
+                    </svg>
+                    {repo.forks_count}
+                  </span>
+                )}
+              </div>
+              
+              <svg class="external-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="repos-empty">
+        <p>Unable to load repositories. Check back later or visit my GitHub profile directly.</p>
+        <a href={`https://github.com/${GITHUB_USERNAME}`} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          View GitHub Profile
+        </a>
+      </div>
+    )}
+
+    <div class="repos-cta">
+      <a href={`https://github.com/${GITHUB_USERNAME}`} class="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+        View all on GitHub
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .repos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .repo-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .repo-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+
+  .repo-icon {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .repo-name {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .repo-description {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: var(--space-lg);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .repo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .repo-stats {
+    display: flex;
+    gap: var(--space-md);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .repo-language {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .language-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .repo-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .external-icon {
+    color: var(--color-text-muted);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .repo-card:hover .external-icon {
+    opacity: 1;
+  }
+
+  .repos-empty {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--color-text-secondary);
+  }
+
+  .repos-empty p {
+    margin-bottom: var(--space-lg);
+    max-width: none;
+  }
+
+  .repos-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-2xl);
+  }
+
+  @media (max-width: 768px) {
+    .repos-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

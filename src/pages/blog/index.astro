@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout 
+  title="Blog" 
+  description="Technical articles, tutorials, and insights on databases, cloud architecture, and AI."
+>
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">Blog & Writing</h1>
+      <p class="page-subtitle">
+        Technical articles, tutorials, and insights. Some posts are published externally on the AWS Database Blog and other platforms.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="blog-list">
+        {sortedPosts.map((post) => (
+          <a 
+            href={post.data.external ? post.data.externalUrl : `/blog/${post.slug}`}
+            target={post.data.external ? '_blank' : undefined}
+            rel={post.data.external ? 'noopener noreferrer' : undefined}
+            class="blog-item"
+          >
+            <article class="blog-content">
+              <div class="blog-meta">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+                {post.data.external && (
+                  <span class="external-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    External Post
+                  </span>
+                )}
+              </div>
+              
+              <h2 class="blog-title">{post.data.title}</h2>
+              <p class="blog-description">{post.data.description}</p>
+              
+              {post.data.tags.length > 0 && (
+                <div class="tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </article>
+            
+            <div class="blog-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {sortedPosts.length === 0 && (
+        <div class="empty-state">
+          <p>No blog posts yet. Check back soon!</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding: var(--space-3xl) 0 var(--space-2xl);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .page-title {
+    margin-bottom: var(--space-md);
+  }
+
+  .page-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--transition-fast);
+  }
+
+  .blog-item:hover {
+    background: var(--color-bg-hover);
+    margin: 0 calc(-1 * var(--space-lg));
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+    border-radius: var(--radius-md);
+  }
+
+  .blog-content {
+    flex-grow: 1;
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .external-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .blog-title {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: var(--space-sm);
+    transition: color var(--transition-fast);
+  }
+
+  .blog-item:hover .blog-title {
+    color: var(--color-accent);
+  }
+
+  .blog-description {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+  }
+
+  .blog-arrow {
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .blog-item:hover .blog-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-3xl);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .blog-item:hover {
+      margin: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .blog-arrow {
+      display: none;
+    }
+  }
+</style>
