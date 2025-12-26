@@ -3,7 +3,7 @@
 [![Live Site](https://img.shields.io/badge/Live%20Site-shayons.github.io-6366f1)](https://shayons.github.io)
 [![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-FF5D01?logo=astro)](https://astro.build)
 
-Personal website of **Shayon Sanyal** — Principal Solutions Architect at AWS, specializing in Databases & Agentic AI.
+Personal website of **Shayon Sanyal** - Principal Solutions Architect at AWS, specializing in Databases & Agentic AI.
 
 ## About
 
