@@ -113,6 +113,29 @@ const { name, title, tagline } = Astro.props;
     margin-bottom: var(--space-2xl);
   }
 
+  /* Large desktop screens */
+  @media (min-width: 1440px) {
+    .hero-tagline {
+      max-width: 700px;
+    }
+  }
+
+  /* Ultrawide / external monitors */
+  @media (min-width: 1920px) {
+    .hero-name {
+      font-size: clamp(4rem, 8vw, 7rem);
+    }
+
+    .hero-title {
+      font-size: clamp(1.25rem, 2vw, 1.5rem);
+    }
+
+    .hero-tagline {
+      max-width: 800px;
+      font-size: clamp(1.25rem, 2vw, 1.75rem);
+    }
+  }
+
   .hero-actions {
     display: flex;
     flex-wrap: wrap;

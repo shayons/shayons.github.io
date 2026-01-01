@@ -24,6 +24,8 @@
 
   /* Layout */
   --max-width: 1200px;
+  --max-width-xl: 1400px;
+  --max-width-2xl: 1600px;
   --content-width: 720px;
 
   /* Transitions */
@@ -458,13 +460,27 @@ pre code {
   .section {
     padding: var(--space-2xl) 0;
   }
-  
+
   .container {
     padding: 0 var(--space-md);
   }
-  
+
   .card {
     padding: var(--space-lg);
+  }
+}
+
+/* Large desktop screens */
+@media (min-width: 1440px) {
+  .container {
+    max-width: var(--max-width-xl);
+  }
+}
+
+/* Ultrawide / external monitors */
+@media (min-width: 1920px) {
+  .container {
+    max-width: var(--max-width-2xl);
   }
 }
 
