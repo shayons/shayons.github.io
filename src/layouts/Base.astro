@@ -2,6 +2,7 @@
 import "@fontsource-variable/newsreader/opsz.css";
 import "@fontsource-variable/newsreader/opsz-italic.css";
 import "@fontsource-variable/inter-tight/wght.css";
+import newsreaderLatin from "@fontsource-variable/newsreader/files/newsreader-latin-opsz-normal.woff2?url";
 import "@/styles/tokens.css";
 import "@/styles/base.css";
 import "@/styles/motion.css";
@@ -13,9 +14,15 @@ interface Props {
   title?: string;
   description?: string;
   current?: "home" | "talks" | "blog";
+  noindex?: boolean;
 }
 
-const { title = SITE.title, description = SITE.description, current } = Astro.props;
+const {
+  title = SITE.title,
+  description = SITE.description,
+  current,
+  noindex = false,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL(SITE.ogImage, SITE.url).href;
 ---
@@ -27,7 +34,8 @@ const ogImage = new URL(SITE.ogImage, SITE.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <link rel="preload" href={newsreaderLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -37,7 +45,7 @@ const ogImage = new URL(SITE.ogImage, SITE.url).href;
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

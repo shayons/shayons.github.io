@@ -74,3 +74,41 @@ test("every icon is served, at the sizes browsers and iOS expect", async ({ requ
   });
   expect(icoSizes(new URL("../public/favicon.ico", import.meta.url))).toEqual([16, 32, 48]);
 });
+
+test("robots.txt allows crawling and points at the sitemap", async ({ request }) => {
+  const response = await request.get("/robots.txt");
+  expect(response.status()).toBe(200);
+  const body = await response.text();
+  expect(body).toContain("User-agent: *");
+  expect(body).toContain("Sitemap: https://shayons.github.io/sitemap-index.xml");
+});
+
+test("the 404 page is not indexed and declares no canonical", async ({ page }) => {
+  await page.goto("/404.html");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", "noindex");
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+  await page.goto("/");
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+});
+
+test("the headline font is preloaded and is the same file the CSS uses", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/");
+  const preload = page.locator('link[rel="preload"][as="font"]');
+  await expect(preload).toHaveCount(1);
+  await expect(preload).toHaveAttribute("type", "font/woff2");
+  await expect(preload).toHaveAttribute("crossorigin", "");
+  const href = (await preload.getAttribute("href")) ?? "";
+  expect(href).toMatch(/newsreader-latin-opsz-normal\.[\w-]+\.woff2$/);
+  const cssHrefs = await page
+    .locator('link[rel="stylesheet"]')
+    .evaluateAll((links) => links.map((link) => link.getAttribute("href") ?? ""));
+  const inlineCss = await page.locator("style").allTextContents();
+  const css = [
+    ...inlineCss,
+    ...(await Promise.all(cssHrefs.map(async (cssHref) => (await request.get(cssHref)).text()))),
+  ].join("\n");
+  expect(css).toContain(href);
+});

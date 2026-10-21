@@ -12,7 +12,7 @@ const links = (Object.keys(LINK_LABELS) as Array<keyof typeof LINK_LABELS>).flat
   const href = talk.links[key];
   return href ? [{ label: LINK_LABELS[key], href }] : [];
 });
-const details = [talk.event, talk.location, talk.sessionId].filter(Boolean).join(", ");
+const details = [talk.event, talk.location].join(", ");
 const withWhom = talk.coPresenters ? `, with ${talk.coPresenters.join(" and ")}` : "";
 const formatLabel = (FORMAT_LABELS as Record<string, string>)[talk.format];
 ---
@@ -31,6 +31,7 @@ const formatLabel = (FORMAT_LABELS as Record<string, string>)[talk.format];
   </div>
   <p class="how meta">
     <span class="format">{formatLabel}</span>
+    {talk.sessionId && <span class="session">{talk.sessionId}</span>}
     {links.map((link) => (
       <a href={link.href}>
         {link.label}
@@ -53,6 +54,9 @@ const formatLabel = (FORMAT_LABELS as Record<string, string>)[talk.format];
     display: flex;
     flex-direction: column;
     gap: 4px;
+  }
+  .session {
+    letter-spacing: 0.04em;
   }
   .upcoming {
     color: var(--accent);

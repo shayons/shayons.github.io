@@ -19,6 +19,12 @@ test.describe("/talks/", () => {
     await expect(row.getByRole("link", { name: /^Session page for Hybrid Search/ })).toHaveCount(1);
   });
 
+  test("shows session codes on their own, not inside the location line", async ({ page }) => {
+    const row = page.locator(".talk", { hasText: "DAT314" });
+    await expect(row.locator(".session")).toHaveText("DAT314");
+    await expect(row.locator(".what .meta")).not.toContainText("DAT314");
+  });
+
   test("marks Talks as the current page in the nav", async ({ page }) => {
     const nav = page.getByRole("navigation", { name: "Primary" });
     await expect(nav.getByRole("link", { name: "Talks" })).toHaveAttribute("aria-current", "page");
