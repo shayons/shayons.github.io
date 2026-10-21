@@ -27,6 +27,7 @@ Talks, writing, case studies, and builds live in `src/data/*.json`. The schemas 
     npm run verify          # formatting, types, unit tests, build, output checks, Playwright and axe
     npm run links:external  # optional: check outbound links
     npm run og              # regenerate public/og.png after changing the headline or portrait
+    npm run icons           # regenerate favicon.ico and apple-touch-icon.png from public/favicon.svg
 
 ## Deploy
 
