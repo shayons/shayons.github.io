@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import { newestFirst } from "@/lib/dates.mjs";
+import SectionHeading from "./SectionHeading.astro";
+import TalkRow from "./TalkRow.astro";
+
+const talks = (await getCollection("talks")).map((entry) => entry.data);
+const recent = newestFirst(talks).slice(0, 5);
+---
+
+<section id="on-stage" class="container on-stage" aria-labelledby="on-stage-title">
+  <SectionHeading id="on-stage-title" title="On stage">
+    <a href="/talks/">All {talks.length} sessions</a>
+  </SectionHeading>
+  <ul>
+    {recent.map((talk) => (
+      <TalkRow talk={talk} />
+    ))}
+  </ul>
+</section>
+
+<style>
+  .on-stage {
+    padding-top: clamp(64px, 9vw, 120px);
+  }
+</style>

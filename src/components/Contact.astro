@@ -1,0 +1,49 @@
+---
+import { SOCIALS } from "@/lib/site";
+---
+
+<section id="contact" class="container contact" aria-labelledby="contact-title">
+  <h2 id="contact-title" data-reveal="scroll">
+    Taking an AI system to production? <em>Let’s talk.</em>
+  </h2>
+  <ul class="socials">
+    {SOCIALS.map((social) => (
+      <li>
+        <a href={social.href}>{social.label}</a>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding-top: clamp(80px, 10vw, 140px);
+    scroll-margin-top: 24px;
+  }
+  h2 {
+    max-width: 18ch;
+    font-size: clamp(36px, 5vw, 68px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  em {
+    color: var(--accent);
+  }
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 32px;
+    font-family: var(--font-sans);
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>

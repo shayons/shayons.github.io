@@ -1,0 +1,87 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { FORMAT_LABELS, formatDate, isUpcoming } from "@/lib/dates.mjs";
+
+interface Props {
+  talk: CollectionEntry<"talks">["data"];
+}
+
+const { talk } = Astro.props;
+const LINK_LABELS = { video: "Video", page: "Session page", code: "Code" } as const;
+const links = (Object.keys(LINK_LABELS) as Array<keyof typeof LINK_LABELS>).flatMap((key) => {
+  const href = talk.links[key];
+  return href ? [{ label: LINK_LABELS[key], href }] : [];
+});
+const details = [talk.event, talk.location, talk.sessionId].filter(Boolean).join(", ");
+const withWhom = talk.coPresenters ? `, with ${talk.coPresenters.join(" and ")}` : "";
+const formatLabel = (FORMAT_LABELS as Record<string, string>)[talk.format];
+---
+
+<li class="talk" data-reveal="scroll">
+  <p class="when meta">
+    <time datetime={talk.date}>{formatDate(talk.date)}</time>
+    {isUpcoming(talk.date) && <span class="upcoming">Upcoming</span>}
+  </p>
+  <div class="what">
+    <h3>{talk.title}</h3>
+    <p class="meta">
+      {details}
+      {withWhom}
+    </p>
+  </div>
+  <p class="how meta">
+    <span class="format">{formatLabel}</span>
+    {links.map((link) => (
+      <a href={link.href}>
+        {link.label}
+        <span class="visually-hidden"> for {talk.title}</span>
+      </a>
+    ))}
+  </p>
+</li>
+
+<style>
+  .talk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 32px;
+    padding-block: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .when {
+    flex: 0 0 130px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .upcoming {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .what {
+    flex: 999 1 420px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  h3 {
+    font-size: 21px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .how {
+    flex: 1 1 200px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 16px;
+    align-items: center;
+  }
+  .how a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import { newestFirst } from "@/lib/dates.mjs";
+import PostRow from "./PostRow.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const posts = newestFirst((await getCollection("posts")).map((entry) => entry.data)).slice(0, 4);
+const projects = (await getCollection("projects"))
+  .map((entry) => entry.data)
+  .sort((a, b) => a.order - b.order);
+---
+
+<section id="writing" class="container split">
+  <div class="column wide">
+    <SectionHeading id="writing-title" title="Writing">
+      <a href="/blog/">All writing</a>
+    </SectionHeading>
+    <ul>
+      {posts.map((post) => (
+        <PostRow post={post} />
+      ))}
+    </ul>
+  </div>
+  <div class="column">
+    <SectionHeading id="builds-title" title="Builds" />
+    <ul class="builds">
+      {projects.map((project) => (
+        <li data-reveal="scroll">
+          {project.url ? (
+            <a class="name" href={project.url}>
+              {project.name}
+            </a>
+          ) : (
+            <span class="name">{project.name}</span>
+          )}
+          <p class="meta">{project.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .split {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    padding-top: clamp(64px, 9vw, 120px);
+  }
+  .column {
+    flex: 1 1 300px;
+    min-width: 0;
+  }
+  .wide {
+    flex: 999 1 560px;
+  }
+  .builds li {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-block: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .name {
+    font-size: 21px;
+  }
+  .builds .meta {
+    line-height: 1.5;
+  }
+</style>

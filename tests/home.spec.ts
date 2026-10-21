@@ -1,4 +1,6 @@
 import { expect, test } from "@playwright/test";
+import { newestFirst } from "@/lib/dates.mjs";
+import { posts, talks } from "./support";
 
 test.describe("home hero", () => {
   test.beforeEach(async ({ page }) => {
@@ -69,6 +71,55 @@ test.describe("approach", () => {
       "02 Evaluate",
       "03 Build",
       "04 Ship",
+    ]);
+  });
+});
+
+test.describe("on stage", () => {
+  test("shows the five most recent talks and links to all of them", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#on-stage .talk h3")).toHaveText(
+      newestFirst(talks)
+        .slice(0, 5)
+        .map((talk) => talk.title),
+    );
+    const all = page
+      .locator("#on-stage")
+      .getByRole("link", { name: `All ${talks.length} sessions` });
+    await expect(all).toHaveAttribute("href", "/talks/");
+  });
+});
+
+test.describe("writing, builds, and contact", () => {
+  test("shows the four newest posts", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#writing .post .title")).toHaveText(
+      newestFirst(posts)
+        .slice(0, 4)
+        .map((post) => post.title),
+    );
+  });
+
+  test("lists YADA first and unlinked, then the public repositories", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.locator("#writing .builds .name")).toHaveText([
+      "YADA",
+      "Pellier",
+      "Mosaic",
+      "Meridian",
+    ]);
+    await expect(page.locator("#writing .builds span.name")).toHaveText(["YADA"]);
+  });
+
+  test("offers three contact links", async ({ page }) => {
+    await page.goto("/");
+    const hrefs = await page
+      .locator("#contact .socials a")
+      .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+    expect(hrefs).toEqual([
+      "https://www.linkedin.com/in/shayonsanyal/",
+      "https://github.com/shayons",
+      "https://x.com/shayon23",
     ]);
   });
 });
