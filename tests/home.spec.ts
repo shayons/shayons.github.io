@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { newestFirst } from "@/lib/dates.mjs";
+import { newestFirst, newestPerTitle } from "@/lib/dates.mjs";
 import { posts, talks } from "./support";
 
 test.describe("home hero", () => {
@@ -76,10 +76,10 @@ test.describe("approach", () => {
 });
 
 test.describe("on stage", () => {
-  test("shows the five most recent talks and links to all of them", async ({ page }) => {
+  test("shows the five newest distinct talk titles and links to all of them", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("#on-stage .talk h3")).toHaveText(
-      newestFirst(talks)
+      newestPerTitle(talks)
         .slice(0, 5)
         .map((talk) => talk.title),
     );

@@ -20,6 +20,21 @@ export function newestFirst(items) {
 }
 
 /**
+ * Keeps the newest entry for each exact title, so repeat deliveries of one talk appear once.
+ * @template {{id: string, date: string, title: string}} T
+ * @param {T[]} items Entries with ISO `YYYY-MM-DD` dates and titles.
+ * @returns {T[]} A new array in newestFirst order; the input is not mutated.
+ */
+export function newestPerTitle(items) {
+  const seen = new Set();
+  return newestFirst(items).filter((item) => {
+    if (seen.has(item.title)) return false;
+    seen.add(item.title);
+    return true;
+  });
+}
+
+/**
  * Groups dated entries by year, newest year first, entries sorted with newestFirst.
  * @template {{id: string, date: string}} T
  * @param {T[]} items Entries with ISO `YYYY-MM-DD` dates.

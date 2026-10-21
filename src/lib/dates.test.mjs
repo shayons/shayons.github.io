@@ -8,6 +8,7 @@ import {
   groupByYear,
   isUpcoming,
   newestFirst,
+  newestPerTitle,
 } from "./dates.mjs";
 
 const items = [
@@ -29,6 +30,38 @@ describe("newestFirst", () => {
     const copy = [...items];
     newestFirst(items);
     assert.deepEqual(items, copy);
+  });
+});
+
+describe("newestPerTitle", () => {
+  const talks = [
+    { id: "a", date: "2026-04-22", title: "X" },
+    { id: "b", date: "2026-10-20", title: "X" },
+    { id: "c", date: "2026-04-21", title: "Y" },
+  ];
+
+  it("keeps only the newest entry per title, newest first", () => {
+    assert.deepEqual(
+      newestPerTitle(talks).map((talk) => talk.id),
+      ["b", "c"],
+    );
+  });
+
+  it("keeps different titles that share a date", () => {
+    const sameDay = [
+      { id: "p", date: "2026-05-01", title: "X" },
+      { id: "q", date: "2026-05-01", title: "Y" },
+    ];
+    assert.deepEqual(
+      newestPerTitle(sameDay).map((talk) => talk.id),
+      ["p", "q"],
+    );
+  });
+
+  it("does not mutate its input", () => {
+    const copy = talks.map((talk) => ({ ...talk }));
+    newestPerTitle(talks);
+    assert.deepEqual(talks, copy);
   });
 });
 
