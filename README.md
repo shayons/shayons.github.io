@@ -1,5 +1,7 @@
 # shayons.github.io
 
+[![Deploy](https://github.com/shayons/shayons.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/shayons/shayons.github.io/actions/workflows/deploy.yml)
+
 Personal site of Shayon Sanyal: [shayons.github.io](https://shayons.github.io).
 
 ## Stack
