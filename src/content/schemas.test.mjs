@@ -27,11 +27,18 @@ describe("data files", () => {
     });
   }
 
-  it("has the expected number of entries", async () => {
-    assert.equal((await load("talks")).length, 22);
-    assert.equal((await load("posts")).length, 15);
-    assert.equal((await load("case-studies")).length, 5);
-    assert.equal((await load("projects")).length, 4);
+  it("has at least the launch content", async () => {
+    const floors = [
+      ["talks", 22],
+      ["posts", 15],
+      ["projects", 4],
+    ];
+    for (const [name, floor] of floors) {
+      const count = (await load(name)).length;
+      assert.ok(count >= floor, `${name}.json has ${count} entries, expected at least ${floor}`);
+    }
+    const cases = (await load("case-studies")).length;
+    assert.equal(cases, 5, `case-studies.json has ${cases} entries, the spec fixes five`);
   });
 
   it("case studies name no customers", async () => {

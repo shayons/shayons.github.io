@@ -12,7 +12,7 @@ const recent = newestFirst(talks).slice(0, 5);
   <SectionHeading id="on-stage-title" title="On stage">
     <a href="/talks/">All {talks.length} sessions</a>
   </SectionHeading>
-  <ul>
+  <ul role="list">
     {recent.map((talk) => (
       <TalkRow talk={talk} />
     ))}

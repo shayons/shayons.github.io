@@ -24,3 +24,13 @@ test("default motion: the hero animates on load and rows animate on scroll", asy
     .evaluate((element) => element.getAnimations().length);
   expect(row).toBeGreaterThan(0);
 });
+
+test("print: nothing animates and below-the-fold content is visible", async ({ page }) => {
+  await page.emulateMedia({ media: "print", reducedMotion: "no-preference" });
+  await page.goto("/");
+  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
+  const opacity = await page
+    .locator("#contact h2")
+    .evaluate((element) => getComputedStyle(element).opacity);
+  expect(opacity).toBe("1");
+});

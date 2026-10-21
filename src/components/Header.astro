@@ -16,7 +16,7 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
       {SITE.name}
     </a>
     <nav aria-label="Primary">
-      <ul class="nav-list">
+      <ul class="nav-list" role="list">
         {NAV.map((item) => (
           <li>
             <a href={item.href} aria-current={item.href === currentHref ? "page" : undefined}>

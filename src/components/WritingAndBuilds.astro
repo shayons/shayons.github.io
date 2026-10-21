@@ -15,7 +15,7 @@ const projects = (await getCollection("projects"))
     <SectionHeading id="writing-title" title="Writing">
       <a href="/blog/">All writing</a>
     </SectionHeading>
-    <ul>
+    <ul role="list">
       {posts.map((post) => (
         <PostRow post={post} />
       ))}
@@ -23,7 +23,7 @@ const projects = (await getCollection("projects"))
   </div>
   <div class="column">
     <SectionHeading id="builds-title" title="Builds" />
-    <ul class="builds">
+    <ul class="builds" role="list">
       {projects.map((project) => (
         <li data-reveal="scroll">
           {project.url ? (
@@ -63,6 +63,11 @@ const projects = (await getCollection("projects"))
   }
   .name {
     font-size: 21px;
+  }
+  .builds a.name {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
   .builds .meta {
     line-height: 1.5;

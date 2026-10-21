@@ -23,7 +23,7 @@ const years = groupByYear(talks);
         <h2 id={`year-${year}`} class="year">
           {year}
         </h2>
-        <ul>
+        <ul role="list">
           {entries.map((talk) => (
             <TalkRow talk={talk} />
           ))}

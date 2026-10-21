@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { listFiles } from "./dist-checks.mjs";
 
@@ -28,8 +29,14 @@ async function linkStatus(url) {
   }
 }
 
+const distDir = "dist";
+if (!existsSync(distDir)) {
+  console.error(`dist directory not found: ${distDir}. Run npm run build first.`);
+  process.exit(1);
+}
+
 const urls = new Set();
-for (const file of (await listFiles("dist")).filter((f) => f.endsWith(".html"))) {
+for (const file of (await listFiles(distDir)).filter((f) => f.endsWith(".html"))) {
   for (const [, url] of (await readFile(file, "utf8")).matchAll(EXTERNAL)) {
     if (!SKIP_HOSTS.has(new URL(url).hostname)) urls.add(url);
   }

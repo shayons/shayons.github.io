@@ -32,7 +32,7 @@ const numberLabel = String(number).padStart(2, "0");
       </div>
     </dl>
   </div>
-  <ul class="metrics" aria-label="Key results">
+  <ul class="metrics" role="list" aria-label="Key results">
     {study.metrics.map((metric) => (
       <li>{metric}</li>
     ))}

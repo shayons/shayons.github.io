@@ -14,7 +14,7 @@ const studies = (await getCollection("caseStudies"))
     Engagements are described by industry. Recent work spans financial services, media, enterprise
     software, consumer devices, travel, retail, and telecom.
   </p>
-  <ol>
+  <ol role="list">
     {studies.map((study, index) => (
       <li>
         <CaseStudy study={study} number={index + 1} />
