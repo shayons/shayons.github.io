@@ -1,0 +1,71 @@
+---
+import { NAV, SITE } from "@/lib/site";
+
+interface Props {
+  current?: "home" | "talks" | "blog";
+}
+
+const { current } = Astro.props;
+const CURRENT_HREF = { talks: "/talks/", blog: "/blog/" } as const;
+const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[current] : undefined;
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="wordmark" href="/">
+      {SITE.name}
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-list">
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href} aria-current={item.href === currentHref ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 32px;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 12px;
+  }
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 28px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .nav-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    text-decoration: none;
+  }
+  .nav-list a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+import { Picture } from "astro:assets";
+import portrait from "@/assets/portrait.jpg";
+import { SITE } from "@/lib/site";
+---
+
+<section class="hero container" aria-labelledby="hero-title">
+  <div class="copy">
+    <p class="label eyebrow" data-reveal="load" style="--reveal-index: 0">
+      Applied AI architect in New York
+    </p>
+    <h1 id="hero-title" data-reveal="load" style="--reveal-index: 1">
+      I help enterprises take AI from proof of value to <em>production.</em>
+    </h1>
+    <p class="lede" data-reveal="load" style="--reveal-index: 2">
+      Principal Solutions Architect and agentic AI tech lead at AWS. For 16 years I have worked
+      between customers’ executives and their engineers: finding the use cases worth building,
+      proving them with evaluations, building the first version myself, and getting it into
+      production.
+    </p>
+    <p class="links" data-reveal="load" style="--reveal-index: 3">
+      <a href="/#work">Selected work</a>
+      <a href="/#contact">Get in touch</a>
+    </p>
+  </div>
+  <figure data-reveal="load" style="--reveal-index: 2">
+    <Picture
+      src={portrait}
+      formats={["avif", "webp"]}
+      widths={[420, 840]}
+      sizes="(min-width: 960px) 420px, 100vw"
+      alt="Portrait of Shayon Sanyal"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <figcaption class="meta">{SITE.role}</figcaption>
+  </figure>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 56px;
+    align-items: flex-end;
+    padding-block: clamp(48px, 8vw, 112px) clamp(56px, 8vw, 104px);
+  }
+  .copy {
+    flex: 999 1 560px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .eyebrow {
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+  h1 {
+    font-size: clamp(44px, 6.2vw, 88px);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+  em {
+    color: var(--accent);
+  }
+  .lede {
+    max-width: 62ch;
+    font-size: clamp(19px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 28px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  figure {
+    flex: 1 1 320px;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  figure :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+  figcaption {
+    font-size: 13px;
+  }
+</style>

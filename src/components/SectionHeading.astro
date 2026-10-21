@@ -1,0 +1,41 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<div class="section-heading" data-reveal="scroll">
+  <h2 id={id}>{title}</h2>
+  <slot />
+</div>
+
+<style>
+  .section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-top: 20px;
+    border-top: 2px solid var(--ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .section-heading :global(a) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(30px, 3vw, 40px);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+</style>

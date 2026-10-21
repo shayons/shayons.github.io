@@ -1,0 +1,29 @@
+---
+import { SITE } from "@/lib/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container row meta">
+    <p>
+      © {year} {SITE.name}
+    </p>
+    <p>Views are my own.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: clamp(64px, 8vw, 112px);
+    border-top: 1px solid var(--line);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    padding-block: 24px 40px;
+    font-size: 13px;
+  }
+</style>

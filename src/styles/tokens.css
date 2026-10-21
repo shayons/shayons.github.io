@@ -1,0 +1,14 @@
+:root {
+  --bg: #ffffff;
+  --ink: #16161a;
+  --ink-2: #3f4148;
+  --muted: #5c5f66;
+  --line: #e4e4e7;
+  --band: #f4f4f5;
+  --accent: #8a1c2b;
+  --font-serif: "Newsreader Variable", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter Tight Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --container: 1200px;
+  --gutter: clamp(16px, 5vw, 64px);
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
