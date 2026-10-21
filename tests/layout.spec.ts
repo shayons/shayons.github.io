@@ -15,6 +15,36 @@ for (const path of PAGES) {
   }
 }
 
+for (const width of [768, 1024]) {
+  test(`results and session links stay with their descriptions at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    for (const [description, supporting] of [
+      [".study .body", ".study .metrics"],
+      [".talk .what", ".talk .how"],
+    ]) {
+      const main = await page.locator(description).first().boundingBox();
+      const details = await page.locator(supporting).first().boundingBox();
+      expect(main).not.toBeNull();
+      expect(details).not.toBeNull();
+      expect(Math.abs(main!.x - details!.x)).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test(`the four approach steps form two balanced rows at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    const tops = await page
+      .locator("#approach .steps li")
+      .evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
+    expect(tops[0]).toBe(tops[1]);
+    expect(tops[2]).toBe(tops[3]);
+    expect(tops[2]).toBeGreaterThan(tops[0]);
+  });
+}
+
 test("nav, hero, and contact links are at least 44px tall on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 800 });
   await page.goto("/");

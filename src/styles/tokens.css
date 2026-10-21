@@ -10,5 +10,8 @@
   --font-sans: "Inter Tight Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   --container: 1200px;
   --gutter: clamp(16px, 5vw, 64px);
+  --section-space: clamp(64px, 7vw, 104px);
+  --column-gap: 32px;
+  --aside-width: 160px;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }

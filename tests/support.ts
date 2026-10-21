@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
 export const PAGES = ["/", "/talks/", "/blog/", "/404.html"] as const;
-export const WIDTHS = [320, 390, 768, 1440] as const;
+export const WIDTHS = [320, 390, 768, 960, 1024, 1440] as const;
 
 export type TalkData = { id: string; title: string; date: string; coPresenters?: string[] };
 export type PostData = { id: string; title: string; date: string; url: string };

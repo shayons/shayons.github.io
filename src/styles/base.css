@@ -14,6 +14,11 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 img,
 picture {
   display: block;
@@ -121,6 +126,7 @@ main:focus {
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .year {

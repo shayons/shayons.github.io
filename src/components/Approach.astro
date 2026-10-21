@@ -6,7 +6,7 @@ const STEPS = [
   },
   {
     word: "Evaluate",
-    text: "Write task-specific evals before the architecture: fixed rubrics, independent ground truth, and a baseline to beat.",
+    text: "Define success before choosing the architecture: a measured baseline, clear tradeoffs, and task-specific evals for AI.",
   },
   {
     word: "Build",
@@ -22,8 +22,8 @@ const STEPS = [
 <section id="approach" class="band" aria-labelledby="approach-title">
   <div class="container inner">
     <div class="intro" data-reveal="scroll">
-      <h2 id="approach-title">LLM at the edges, determinism in the core.</h2>
-      <p class="sub">How an engagement runs, from the first meeting to the handoff.</p>
+      <h2 id="approach-title">How I work.</h2>
+      <p class="sub">From understanding the workload to production and handoff.</p>
     </div>
     <ol class="steps" role="list">
       {STEPS.map((step, index) => (
@@ -48,7 +48,7 @@ const STEPS = [
     display: flex;
     flex-direction: column;
     gap: 40px;
-    padding-block: clamp(64px, 8vw, 104px);
+    padding-block: var(--section-space);
   }
   .intro {
     display: flex;
@@ -67,12 +67,11 @@ const STEPS = [
     color: var(--ink-2);
   }
   .steps {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
   }
   .steps li {
-    flex: 1 1 230px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -92,5 +91,15 @@ const STEPS = [
   .step-text {
     font-size: 18px;
     line-height: 1.5;
+  }
+  @media (min-width: 600px) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1100px) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 </style>

@@ -1,9 +1,9 @@
 export const SITE = {
   name: "Shayon Sanyal",
   url: "https://shayons.github.io",
-  title: "Shayon Sanyal | Applied AI architect",
+  title: "Shayon Sanyal | PostgreSQL, Data & AI",
   description:
-    "Applied AI architect in New York. I help enterprises take AI from proof of value to production: evaluations, retrieval, agent guardrails, and the data layer underneath.",
+    "The portfolio of Shayon Sanyal, a data and AI architect in New York. PostgreSQL at scale, data architecture, retrieval, and AI in production.",
   role: "Principal Solutions Architect, Amazon Web Services",
   ogImage: "/og.png",
 } as const;

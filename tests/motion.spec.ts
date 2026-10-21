@@ -30,7 +30,9 @@ async function poseWithTopInView(target: Locator, pixelsIntoView: number): Promi
 }
 
 async function usesTriggers(page: Page): Promise<boolean> {
-  return page.evaluate(() => CSS.supports("timeline-trigger: --reveal view()"));
+  return page.evaluate(() =>
+    CSS.supports("timeline-trigger: --reveal view() cover 100px cover calc(infinity * 1px)"),
+  );
 }
 
 async function scrollThrough(page: Page, path: string): Promise<void> {
@@ -156,8 +158,14 @@ test("timed reveal: a block waits until it is 100px into view, then plays once",
   test.skip(!(await usesTriggers(page)), "this browser reveals on a scroll-linked timeline");
   const row = page.locator("#work article").first();
   const who = row.locator(".who");
-  expect(await poseWithTopInView(who, 40)).toMatchObject({ opacity: 0, rise: 24 });
+  expect(await poseWithTopInView(who, 40)).toMatchObject({ opacity: 0, rise: 16 });
   expect((await poseWithTopInView(who, 160)).opacity).toBeLessThan(0.9);
+  // The reveal must still be perceptible after the reader stops scrolling.
+  await page.waitForTimeout(300);
+  const paused = await readPose(who);
+  expect(paused.opacity).toBeGreaterThan(0.1);
+  expect(paused.opacity).toBeLessThan(0.95);
+  expect(paused.rise).toBeGreaterThan(0.5);
   await expect.poll(() => readPose(who)).toMatchObject({ opacity: 1, rise: 0 });
   const delays = await row
     .locator("[data-reveal]")
@@ -171,7 +179,7 @@ test("timed reveal: a section rule draws with its heading", async ({ page }) => 
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   test.skip(!(await usesTriggers(page)), "this browser reveals on a scroll-linked timeline");
-  const heading = page.locator("#work .section-heading");
+  const heading = page.locator("#on-stage .section-heading");
   expect((await poseWithTopInView(heading, 40)).ruleScale).toBe(0);
   expect((await poseWithTopInView(heading, 160)).ruleScale).toBeLessThan(0.9);
   await expect.poll(async () => (await readPose(heading)).ruleScale).toBe(1);
@@ -186,7 +194,7 @@ test("scroll-linked reveal: blocks play out where the reader is looking", async 
   const midway = await poseWithTopInView(column, 110);
   expect(midway.opacity).toBeGreaterThan(0.3);
   expect(midway.opacity).toBeLessThan(0.7);
-  expect(midway.rise).toBeGreaterThan(6);
+  expect(midway.rise).toBeGreaterThan(4);
   expect(await poseWithTopInView(column, 280)).toMatchObject({ opacity: 1, rise: 0 });
 });
 
@@ -194,7 +202,7 @@ test("scroll-linked reveal: a section rule draws while its heading rises", async
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
   test.skip(await usesTriggers(page), "this browser plays timed reveals");
-  const heading = page.locator("#work .section-heading");
+  const heading = page.locator("#on-stage .section-heading");
   expect((await poseWithTopInView(heading, 30)).ruleScale).toBeLessThan(0.05);
   const drawing = (await poseWithTopInView(heading, 150)).ruleScale;
   expect(drawing).toBeGreaterThan(0.25);
@@ -224,6 +232,39 @@ for (const path of ["/", "/talks/", "/blog/"]) {
   }) => {
     await scrollThrough(page, path);
     await expect.poll(() => unsettled(page)).toEqual([]);
+  });
+}
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 390, height: 844 },
+]) {
+  test.describe(`jump navigation at ${viewport.width}px`, () => {
+    test.use({ viewport });
+
+    for (const path of ["/", "/talks/", "/blog/"]) {
+      test(`${path} reveals skipped blocks after an instant jump to the bottom`, async ({
+        page,
+      }) => {
+        await page.emulateMedia({ reducedMotion: "no-preference" });
+        await page.goto(path);
+        await page.evaluate(() =>
+          window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }),
+        );
+        await expect.poll(() => unsettled(page)).toEqual([]);
+      });
+    }
+
+    test("a direct contact link reveals the destination and all skipped blocks", async ({
+      page,
+    }) => {
+      await page.emulateMedia({ reducedMotion: "no-preference" });
+      await page.goto("/#contact");
+      await expect(page.locator("#contact .stack")).toBeInViewport();
+      await expect.poll(() => unsettled(page)).toEqual([]);
+      await page.reload();
+      await expect.poll(() => unsettled(page)).toEqual([]);
+    });
   });
 }
 

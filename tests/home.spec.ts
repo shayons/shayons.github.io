@@ -8,12 +8,10 @@ test.describe("home hero", () => {
   });
 
   test("has the title, a single h1, and the hero copy", async ({ page }) => {
-    await expect(page).toHaveTitle("Shayon Sanyal | Applied AI architect");
+    await expect(page).toHaveTitle("Shayon Sanyal | PostgreSQL, Data & AI");
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator("h1")).toHaveText(
-      "I help enterprises take AI from proof of value to production.",
-    );
-    await expect(page.getByText("Applied AI architect in New York")).toBeVisible();
+    await expect(page.locator("h1")).toHaveText("PostgreSQL at scale. AI in production.");
+    await expect(page.getByText("Data & AI architect in New York")).toBeVisible();
   });
 
   test("shows the portrait with alt text and modern formats", async ({ page }) => {
@@ -62,9 +60,7 @@ test.describe("approach", () => {
   test("states the principle and four numbered steps without separators", async ({ page }) => {
     await page.goto("/");
     const section = page.locator("#approach");
-    await expect(section.getByRole("heading", { level: 2 })).toHaveText(
-      "LLM at the edges, determinism in the core.",
-    );
+    await expect(section.getByRole("heading", { level: 2 })).toHaveText("How I work.");
     await expect(section.locator(".step-number")).toHaveText(["01", "02", "03", "04"]);
     await expect(section.locator(".step-label")).toHaveText([
       "01 Discover",

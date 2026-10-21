@@ -5,7 +5,7 @@ import { SOCIALS } from "@/lib/site";
 <section id="contact" class="container contact" aria-labelledby="contact-title">
   <div class="stack" data-reveal="scroll">
     <h2 id="contact-title">
-      Taking an AI system to production? <em>Let’s talk.</em>
+      Let’s talk PostgreSQL, data, <em>and AI.</em>
     </h2>
     <ul class="socials" role="list">
       {SOCIALS.map((social) => (
@@ -19,7 +19,7 @@ import { SOCIALS } from "@/lib/site";
 
 <style>
   .contact {
-    padding-top: clamp(80px, 10vw, 140px);
+    padding-top: var(--section-space);
     scroll-margin-top: 24px;
   }
   .stack {
@@ -33,6 +33,7 @@ import { SOCIALS } from "@/lib/site";
     font-weight: 500;
     line-height: 1.05;
     letter-spacing: -0.02em;
+    text-wrap: balance;
   }
   em {
     color: var(--accent);
