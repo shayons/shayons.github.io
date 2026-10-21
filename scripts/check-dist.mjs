@@ -1,6 +1,12 @@
+import { existsSync } from "node:fs";
 import { checkDist } from "./dist-checks.mjs";
 
 const distDir = process.argv[2] ?? "dist";
+if (!existsSync(distDir)) {
+  console.error(`dist directory not found: ${distDir}. Run npm run build first.`);
+  process.exit(1);
+}
+
 const problems = await checkDist(distDir);
 
 if (problems.length === 0) {

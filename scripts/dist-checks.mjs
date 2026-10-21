@@ -3,8 +3,8 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const BANNED = [
-  { name: "em dash", pattern: /—|&mdash;|&#8212;|&#x2014;/gi },
-  { name: "middle dot", pattern: /·|&middot;|&#183;|&#xb7;/gi },
+  { name: "em dash", pattern: /\u2014|&mdash;|&#8212;|&#x2014;/gi },
+  { name: "middle dot", pattern: /\u00b7|&middot;|&#183;|&#xb7;/gi },
 ];
 
 const LINK_ATTRIBUTE = /\s(?:href|src)="([^"]+)"/g;

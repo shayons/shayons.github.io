@@ -7,7 +7,7 @@ import { checkDist, findBannedCharacters, internalTargets } from "./dist-checks.
 
 describe("findBannedCharacters", () => {
   it("finds a literal em dash and a literal middle dot", () => {
-    const found = findBannedCharacters("<p>one — two · three</p>");
+    const found = findBannedCharacters("<p>one \u2014 two \u00b7 three</p>");
     assert.deepEqual(
       found.map((f) => f.name),
       ["em dash", "middle dot"],
@@ -19,11 +19,14 @@ describe("findBannedCharacters", () => {
   });
 
   it("allows an en dash in a numeric range", () => {
-    assert.deepEqual(findBannedCharacters("<p>100–200B</p>"), []);
+    assert.deepEqual(findBannedCharacters("<p>100\u2013200B</p>"), []);
   });
 
   it("ignores characters inside style blocks", () => {
-    assert.deepEqual(findBannedCharacters('<style>a::before{content:"·"}</style><p>ok</p>'), []);
+    assert.deepEqual(
+      findBannedCharacters('<style>a::before{content:"\u00b7"}</style><p>ok</p>'),
+      [],
+    );
   });
 });
 
@@ -55,7 +58,7 @@ describe("checkDist", () => {
       ].join(""),
     );
     await writeFile(path.join(dist, "app.js"), "console.log(1)");
-    await writeFile(path.join(dist, "bad.html"), "<p>a — b</p><script>1</script>");
+    await writeFile(path.join(dist, "bad.html"), "<p>a \u2014 b</p><script>1</script>");
   });
 
   after(async () => {
