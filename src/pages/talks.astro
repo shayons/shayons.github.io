@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import TalkRow from "@/components/TalkRow.astro";
+import Base from "@/layouts/Base.astro";
+import { groupByYear } from "@/lib/dates.mjs";
+
+const talks = (await getCollection("talks")).map((entry) => entry.data);
+const years = groupByYear(talks);
+---
+
+<Base
+  title="Talks | Shayon Sanyal"
+  description="Talks, workshops, and chalk talks on agentic AI, retrieval, and PostgreSQL."
+  current="talks"
+>
+  <div class="container page">
+    <header class="page-head" data-reveal="load">
+      <h1>Talks</h1>
+      <p class="meta">{talks.length} sessions on agentic AI, retrieval, and PostgreSQL.</p>
+    </header>
+    {years.map(({ year, entries }) => (
+      <section aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`} class="year">
+          {year}
+        </h2>
+        <ul>
+          {entries.map((talk) => (
+            <TalkRow talk={talk} />
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

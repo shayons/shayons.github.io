@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import PostRow from "@/components/PostRow.astro";
+import Base from "@/layouts/Base.astro";
+import { groupByYear } from "@/lib/dates.mjs";
+
+const posts = (await getCollection("posts")).map((entry) => entry.data);
+const years = groupByYear(posts);
+---
+
+<Base
+  title="Writing | Shayon Sanyal"
+  description="Articles on vector search, agentic AI, and PostgreSQL on the AWS blogs."
+  current="blog"
+>
+  <div class="container page">
+    <header class="page-head" data-reveal="load">
+      <h1>Writing</h1>
+      <p class="meta">
+        {posts.length} articles on the AWS Database, Big Data, and Machine Learning blogs.
+      </p>
+    </header>
+    {years.map(({ year, entries }) => (
+      <section aria-labelledby={`year-${year}`}>
+        <h2 id={`year-${year}`} class="year">
+          {year}
+        </h2>
+        <ul>
+          {entries.map((post) => (
+            <PostRow post={post} />
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>
