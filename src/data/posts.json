@@ -1,0 +1,107 @@
+[
+  {
+    "id": "s3-vectors-aurora-sql",
+    "title": "Query billion-scale vectors with SQL: Integrating Amazon S3 Vectors and Aurora PostgreSQL",
+    "date": "2026-05-08",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/query-billion-scale-vectors-with-sql-integrating-amazon-s3-vectors-and-aurora-postgresql/"
+  },
+  {
+    "id": "ring-billion-scale-pgvector",
+    "title": "Ring’s Billion-Scale Semantic Video Search with Amazon RDS for PostgreSQL and pgvector",
+    "date": "2026-04-21",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/rings-billion-scale-semantic-video-search-with-amazon-rds-for-postgresql-and-pgvector/"
+  },
+  {
+    "id": "netflix-aurora-consolidation",
+    "title": "Netflix consolidates relational database infrastructure on Amazon Aurora, achieving up to 75% improved performance",
+    "date": "2025-11-26",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/netflix-consolidates-relational-database-infrastructure-on-amazon-aurora-achieving-up-to-75-improved-performance/"
+  },
+  {
+    "id": "pgvector-080-aurora",
+    "title": "Supercharging vector search performance and relevance with pgvector 0.8.0 on Amazon Aurora PostgreSQL",
+    "date": "2025-05-28",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/supercharging-vector-search-performance-and-relevance-with-pgvector-0-8-0-on-amazon-aurora-postgresql/"
+  },
+  {
+    "id": "fundapps-babelfish-migration",
+    "title": "FundApps's journey from SQL Server to Amazon Aurora Serverless v2 with Babelfish",
+    "date": "2024-12-16",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/fundappss-journey-from-sql-server-to-amazon-aurora-serverless-v2-with-babelfish/"
+  },
+  {
+    "id": "bedrock-knowledge-bases-aurora",
+    "title": "Accelerate your generative AI application development with Amazon Bedrock Knowledge Bases Quick Create and Amazon Aurora Serverless",
+    "date": "2024-12-06",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/accelerate-your-generative-ai-application-development-with-amazon-bedrock-knowledge-bases-quick-create-and-amazon-aurora-serverless/"
+  },
+  {
+    "id": "database-for-genai",
+    "title": "Key considerations when choosing a database for your generative AI applications",
+    "date": "2024-07-15",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/key-considerations-when-choosing-a-database-for-your-generative-ai-applications/"
+  },
+  {
+    "id": "open-raven-io-optimized",
+    "title": "Unlocking cost-optimization: Open Raven's journey with Amazon Aurora I/O-Optimized leads to 60% savings",
+    "date": "2023-10-10",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/unlocking-cost-optimization-open-ravens-journey-with-amazon-aurora-i-o-optimized-leads-to-60-savings/"
+  },
+  {
+    "id": "rds-logical-replication-analytics",
+    "title": "Data consolidation for analytical applications using logical replication for Amazon RDS Multi-AZ clusters",
+    "date": "2023-08-14",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/data-consolidation-for-analytical-applications-using-logical-replication-for-amazon-rds-multi-az-clusters/"
+  },
+  {
+    "id": "pgvector-nlp-chatbots",
+    "title": "Leverage pgvector and Amazon Aurora PostgreSQL for Natural Language Processing, Chatbots and Sentiment Analysis",
+    "date": "2023-07-13",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/leverage-pgvector-and-amazon-aurora-postgresql-for-natural-language-processing-chatbots-and-sentiment-analysis/"
+  },
+  {
+    "id": "snowflake-s3-glue",
+    "title": "Ingest data from Snowflake to Amazon S3 using AWS Glue Marketplace Connectors",
+    "date": "2022-03-16",
+    "publication": "AWS Big Data Blog",
+    "url": "https://aws.amazon.com/blogs/big-data/ingest-data-from-snowflake-to-amazon-s3-using-aws-glue-marketplace-connectors/"
+  },
+  {
+    "id": "aurora-postgresql-replication",
+    "title": "Understand replication capabilities in Amazon Aurora PostgreSQL",
+    "date": "2021-10-04",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/understand-replication-capabilities-in-amazon-aurora-postgresql/"
+  },
+  {
+    "id": "aurora-goldengate-active-active",
+    "title": "Implement active/active replication between Amazon Aurora clusters using Oracle GoldenGate",
+    "date": "2021-09-27",
+    "publication": "AWS Database Blog",
+    "url": "https://aws.amazon.com/blogs/database/implement-active-active-replication-between-amazon-aurora-clusters-using-oracle-goldengate/"
+  },
+  {
+    "id": "lawn-monitor-ml-iot",
+    "title": "Building a lawn monitor and weed detection solution with AWS machine learning and IoT services",
+    "date": "2020-05-08",
+    "publication": "AWS Machine Learning Blog",
+    "url": "https://aws.amazon.com/blogs/machine-learning/building-a-lawn-monitor-and-weed-detection-solution-with-aws-machine-learning-and-iot-services/"
+  },
+  {
+    "id": "s3-spend-glue-redshift",
+    "title": "Analyze your Amazon S3 spend using AWS Glue and Amazon Redshift",
+    "date": "2020-01-24",
+    "publication": "AWS Big Data Blog",
+    "url": "https://aws.amazon.com/blogs/big-data/analyze-your-amazon-s3-spend-using-aws-glue-and-amazon-redshift/"
+  }
+]

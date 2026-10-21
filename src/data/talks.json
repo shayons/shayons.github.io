@@ -1,0 +1,231 @@
+[
+  {
+    "id": "pgconfeu-2026-hybrid-search",
+    "title": "Hybrid Search in PostgreSQL: Combining Vector and Full-Text for Real-World Applications",
+    "event": "PGConf.EU 2026",
+    "format": "talk",
+    "date": "2026-10-20",
+    "location": "Valencia, Spain",
+    "links": {
+      "page": "https://www.postgresql.eu/events/pgconfeu2026/sessions/session/8522-hybrid-search-in-postgresql-combining-vector-and-full-text-for-real-world-applications/"
+    }
+  },
+  {
+    "id": "pgsummit-us-2026-hybrid-search",
+    "title": "Hybrid Search in PostgreSQL: Combining Vector and Full-Text for Real-World Applications",
+    "event": "Postgres Summit US 2026",
+    "format": "talk",
+    "date": "2026-09-30",
+    "location": "New York, NY",
+    "links": {
+      "page": "https://postgresql.us/events/postgressummitus2026/sessions/session/2349-hybrid-search-in-postgresql-combining-vector-and-full-text-for-real-world-applications/"
+    }
+  },
+  {
+    "id": "pgconf-2026-hybrid-search",
+    "title": "Hybrid Search in PostgreSQL: Combining Vector and Full-Text for Real-World Applications",
+    "event": "Postgres Conference 2026",
+    "format": "talk",
+    "date": "2026-04-22",
+    "location": "San Jose, CA",
+    "coPresenters": ["Rinisha Marar"],
+    "links": {
+      "page": "https://postgresconf.org/conferences/postgresconf_2026/program/proposals/hybrid-search-in-postgresql-combining-vector-and-full-text-for-real-world-applications"
+    }
+  },
+  {
+    "id": "pgconf-2026-oracle-features",
+    "title": "Replacing Oracle’s Advanced Features in PostgreSQL: High Availability, Advanced Functions, and Extensibility",
+    "event": "Postgres Conference 2026",
+    "format": "talk",
+    "date": "2026-04-22",
+    "location": "San Jose, CA",
+    "coPresenters": ["Sameer Malik"],
+    "links": {
+      "page": "https://postgresconf.org/conferences/postgresconf_2026/program/proposals/replacing-oracle-s-advanced-features-in-postgresql-high-availability-advanced-functions-and-extensibility-6860d01c-2cfd-4f75-b510-07df7e81784e"
+    }
+  },
+  {
+    "id": "pgconf-2026-agentic-backbone",
+    "title": "Building Agentic AI Applications with PostgreSQL as the Backbone",
+    "event": "Postgres Conference 2026",
+    "format": "talk",
+    "date": "2026-04-21",
+    "location": "San Jose, CA",
+    "links": {
+      "page": "https://postgresconf.org/conferences/postgresconf_2026/program/proposals/building-agentic-ai-applications-with-postgresql-as-the-backbone"
+    }
+  },
+  {
+    "id": "reinvent-2025-chatbots",
+    "title": "Build serverless chatbots using Amazon ElastiCache & Aurora PostgreSQL",
+    "event": "AWS re:Invent 2025",
+    "format": "talk",
+    "date": "2025-12-07",
+    "location": "Las Vegas, NV",
+    "sessionId": "DAT314",
+    "links": { "video": "https://www.youtube.com/watch?v=eCiR1mDe5Rw" }
+  },
+  {
+    "id": "reinvent-2025-chalk-talk-dat428",
+    "title": "Build a cost-effective RAG-based gen AI application with Amazon Aurora",
+    "event": "AWS re:Invent 2025",
+    "format": "chalk-talk",
+    "date": "2025-12-05",
+    "location": "Las Vegas, NV",
+    "sessionId": "DAT428",
+    "links": {}
+  },
+  {
+    "id": "reinvent-2025-chalk-talk-dat309",
+    "title": "Build Agentic workflows with Aurora and MCP",
+    "event": "AWS re:Invent 2025",
+    "format": "chalk-talk",
+    "date": "2025-12-05",
+    "location": "Las Vegas, NV",
+    "sessionId": "DAT309",
+    "links": { "code": "https://github.com/aws-samples/sample-dat309-agentic-workflows-aurora-mcp" }
+  },
+  {
+    "id": "reinvent-2025-builder-dat409",
+    "title": "Implement hybrid search with Aurora PostgreSQL for MCP retrieval",
+    "event": "AWS re:Invent 2025",
+    "format": "builder-session",
+    "date": "2025-12-04",
+    "location": "Las Vegas, NV",
+    "sessionId": "DAT409",
+    "links": { "code": "https://github.com/aws-samples/sample-dat409-hybrid-search-aurora-mcp" }
+  },
+  {
+    "id": "reinvent-2025-workshop-dat406",
+    "title": "Build agentic AI-powered search with Amazon Aurora and Amazon RDS",
+    "event": "AWS re:Invent 2025",
+    "format": "workshop",
+    "date": "2025-12-03",
+    "location": "Las Vegas, NV",
+    "sessionId": "DAT406",
+    "links": {
+      "code": "https://github.com/aws-samples/sample-dat406-build-agentic-ai-powered-search-apg"
+    }
+  },
+  {
+    "id": "aurora-decade-2025",
+    "title": "A decade of innovation with Amazon Aurora",
+    "event": "AWS Live Stream 2025",
+    "format": "webinar",
+    "date": "2025-08-21",
+    "location": "Virtual",
+    "links": { "video": "https://www.youtube.com/live/IMAp3XRtR30" }
+  },
+  {
+    "id": "pgconf-2025-oracle-postgresql",
+    "title": "Replacing Oracle’s Advanced Features in PostgreSQL: High Availability, Advanced Functions, and Extensibility",
+    "event": "Postgres Conference 2025",
+    "format": "talk",
+    "date": "2025-03-19",
+    "location": "Orlando, FL",
+    "links": {
+      "video": "https://www.youtube.com/watch?v=SkXiijAyrHg",
+      "page": "https://postgresconf.org/conferences/postgresconf_global_2025/program/proposals/replacing-oracle-s-advanced-features-in-postgresql-high-availability-advanced-functions-and-extensibility"
+    }
+  },
+  {
+    "id": "reinvent-2024-chatbots",
+    "title": "Build serverless chatbots using Amazon ElastiCache & Aurora PostgreSQL",
+    "event": "AWS re:Invent 2024",
+    "format": "talk",
+    "date": "2024-12-03",
+    "location": "Las Vegas, NV",
+    "sessionId": "DAT326",
+    "links": { "video": "https://www.youtube.com/watch?v=g5-hcwwuzn0" }
+  },
+  {
+    "id": "baffle-2024-vectordb-security",
+    "title": "Vector Databases and Securing Sensitive Data (Data Encryption for Gen AI Apps)",
+    "event": "Baffle Webinar",
+    "format": "webinar",
+    "date": "2024-12-01",
+    "location": "Virtual",
+    "links": { "video": "https://info.baffle.io/webinar/2024/12/vectordb-datasecurity" }
+  },
+  {
+    "id": "aurora-bedrock-rag",
+    "title": "How to use Aurora as a Knowledge Base for Amazon Bedrock for RAG",
+    "event": "The Data Dive on AWS OnAir",
+    "format": "webinar",
+    "date": "2024-08-10",
+    "location": "Virtual",
+    "links": { "video": "https://www.youtube.com/watch?v=MpmV-MehtWs" }
+  },
+  {
+    "id": "pgconf-2024-pgvector-oltp",
+    "title": "Enhancing OLTP Systems with pgvector: Best Practices in Database Design",
+    "event": "Postgres Conference 2024",
+    "format": "talk",
+    "date": "2024-04-18",
+    "location": "San Jose, CA",
+    "coPresenters": ["Sundar Raghavan"],
+    "links": {
+      "page": "https://postgresconf.org/conferences/2024/program/proposals/supporting-genai-workloads-in-postgresql"
+    }
+  },
+  {
+    "id": "pgvector-ai-apps",
+    "title": "What's next in pgvector: Building AI-enabled apps with PostgreSQL",
+    "event": "AWS Databases in 15",
+    "format": "webinar",
+    "date": "2024-03-20",
+    "location": "Virtual",
+    "links": { "video": "https://www.youtube.com/watch?v=CzeTgNoHXN0" }
+  },
+  {
+    "id": "json-postgresql-2023",
+    "title": "JSON in PostgreSQL - Learning with a case study",
+    "event": "Community Talk",
+    "format": "talk",
+    "date": "2023-06-15",
+    "location": "Virtual",
+    "links": { "video": "https://www.youtube.com/watch?v=oEy1a0qDaKk" }
+  },
+  {
+    "id": "pgconf-nyc-2022-finserv",
+    "title": "Why PostgreSQL is becoming the standard in Financial Services",
+    "event": "PGConf NYC 2022",
+    "format": "talk",
+    "date": "2022-09-22",
+    "location": "New York, NY",
+    "links": { "video": "https://www.youtube.com/watch?v=TsY7E-LJIRk" }
+  },
+  {
+    "id": "pgconf-sv-2022-aurora-ha-dr",
+    "title": "Amazon Aurora Global Database Design Patterns for HA and DR",
+    "event": "Postgres Conference Silicon Valley 2022",
+    "format": "talk",
+    "date": "2022-04-08",
+    "location": "San Jose, CA",
+    "links": {
+      "page": "https://postgresconf.org/conferences/SV2022/program/proposals/amazon-aurora-global-database-design-patterns-for-ha-and-dr"
+    }
+  },
+  {
+    "id": "pgconf-sv-2022-global-database",
+    "title": "Using Global database in Amazon Aurora PostgreSQL",
+    "event": "Postgres Conference Silicon Valley 2022",
+    "format": "talk",
+    "date": "2022-04-08",
+    "location": "San Jose, CA",
+    "coPresenters": ["Sukhpreet Bedi"],
+    "links": {
+      "page": "https://postgresconf.org/conferences/SV2022/program/proposals/using-global-database-in-amazon-aurora-postgresql"
+    }
+  },
+  {
+    "id": "aurora-deep-dive-2021",
+    "title": "Amazon Aurora PostgreSQL Deep Dive",
+    "event": "Data.SQL.Saturday.LA 2021",
+    "format": "talk",
+    "date": "2021-04-10",
+    "location": "Los Angeles, CA (virtual)",
+    "links": { "video": "https://www.youtube.com/watch?v=iUaSd-hDdaM" }
+  }
+]

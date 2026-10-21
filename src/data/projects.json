@@ -1,0 +1,29 @@
+[
+  {
+    "id": "yada",
+    "order": 1,
+    "name": "YADA",
+    "description": "A multi-agent DBA: fleet monitoring, next-best actions, human-approved writes, post-change verification, and a full audit trail."
+  },
+  {
+    "id": "pellier",
+    "order": 2,
+    "name": "Pellier",
+    "description": "Agentic search concierge on Aurora PostgreSQL: pgvector, hybrid retrieval, Strands specialists, and Bedrock AgentCore.",
+    "url": "https://github.com/aws-samples/sample-pellier-agentic-search-apg"
+  },
+  {
+    "id": "mosaic",
+    "order": 3,
+    "name": "Mosaic",
+    "description": "Production-shaped hybrid search over a 500k-product catalog: full-text, trigram, HNSW, RRF, and rerank.",
+    "url": "https://github.com/aws-samples/sample-agentic-hybrid-retrieval-aurora-postgresql"
+  },
+  {
+    "id": "meridian",
+    "order": 4,
+    "name": "Meridian",
+    "description": "Durable agent state: Aurora checkpoints, MCP, AgentCore, LangGraph, and a live recovery path.",
+    "url": "https://github.com/aws-samples/sample-stateful-agentic-ai-workflows-aurora-mcp-agentcore"
+  }
+]

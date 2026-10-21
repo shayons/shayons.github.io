@@ -1,0 +1,60 @@
+[
+  {
+    "id": "global-media-migration",
+    "order": 1,
+    "industry": "Global media company",
+    "headline": "From evaluation to full production adoption",
+    "challenge": "Move production applications off a self-managed distributed SQL engine without disruption.",
+    "action": "Led the migration working group and cutover war room, then built the post-migration operating model (a two-day workshop, a runbook, and diagnostic queries) and handed ownership to the customer’s teams.",
+    "result": "100% production adoption, with the incumbent engine retired.",
+    "metrics": [
+      "100% production adoption",
+      "Up to 75% faster responses",
+      "28% lower cost than licensed pricing"
+    ]
+  },
+  {
+    "id": "consumer-devices-retrieval",
+    "order": 2,
+    "industry": "Consumer devices company",
+    "headline": "Retrieval architecture for semantic video search",
+    "challenge": "Search 100–200B embeddings, growing about 2B a day, across 9 AWS Regions.",
+    "action": "Advised on the production vector architecture and its operational tradeoffs, including replication and compute re-platforming.",
+    "result": "In production on PostgreSQL and pgvector at about 150 TB, built and run by the customer’s teams.",
+    "metrics": ["100–200B embeddings", "About 150 TB across 9 Regions"]
+  },
+  {
+    "id": "construction-ai-search",
+    "order": 3,
+    "industry": "Construction technology company",
+    "headline": "AI search in under a second",
+    "challenge": "AI search over hundreds of millions of vectors was too slow under tens of millions of writes a day.",
+    "action": "Re-architected the retrieval path for read latency under constant write load.",
+    "result": "Latency down from over 15 seconds to under one second.",
+    "metrics": ["15+ seconds to under 1 second"]
+  },
+  {
+    "id": "enterprise-software-semantic-layer",
+    "order": 4,
+    "industry": "Enterprise software company",
+    "headline": "A semantic data layer: LLM at the edges, determinism in the core",
+    "challenge": "Answer natural-language business questions against a tenant’s own objects, reliably.",
+    "action": "Built the proof of value end to end as a forward-deployed engineer: a four-stage pipeline (intent, context, concept, tenant object) where the model interprets language and deterministic code resolves it, on Python, FastAPI, LangGraph, and pgvector.",
+    "result": "Fixed a delivery-blocking agent state defect, stood up the evaluation framework, and handed over a documented repository.",
+    "metrics": [
+      "Four-stage deterministic pipeline",
+      "Evals before architecture",
+      "Documented handoff"
+    ]
+  },
+  {
+    "id": "global-bank-adoption",
+    "order": 5,
+    "industry": "Global bank",
+    "headline": "An adoption roadmap across hundreds of applications",
+    "challenge": "Modernize a database estate of thousands of instances.",
+    "action": "Owned the technical account plan and built champions from engineering leads to platform executives.",
+    "result": "The bank now runs its own database Center of Excellence.",
+    "metrics": ["Thousands of instances", "Customer-run Center of Excellence"]
+  }
+]
