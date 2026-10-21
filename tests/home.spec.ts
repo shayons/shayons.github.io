@@ -35,3 +35,23 @@ test.describe("home hero", () => {
     await expect(page.locator("main")).toBeFocused();
   });
 });
+
+test.describe("selected work", () => {
+  test("lists five engagements in order with the three-part structure", async ({ page }) => {
+    await page.goto("/");
+    const studies = page.locator("#work article");
+    await expect(studies).toHaveCount(5);
+    await expect(studies.first().locator(".industry")).toHaveText("Global media company");
+    await expect(studies.last().locator(".industry")).toHaveText("Global bank");
+    for (const term of ["Challenge", "What I did", "Result"]) {
+      await expect(page.locator("#work dt", { hasText: term })).toHaveCount(5);
+    }
+  });
+
+  test("names no customers and links nowhere", async ({ page }) => {
+    await page.goto("/");
+    const text = await page.locator("#work").innerText();
+    expect(text).not.toMatch(/\b(Netflix|Ring)\b/);
+    await expect(page.locator("#work a")).toHaveCount(0);
+  });
+});

@@ -1,0 +1,106 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  study: CollectionEntry<"caseStudies">["data"];
+  number: number;
+}
+
+const { study, number } = Astro.props;
+const numberLabel = String(number).padStart(2, "0");
+---
+
+<article class="study" data-reveal="scroll">
+  <div class="who">
+    <span class="meta">{numberLabel}</span>
+    <p class="industry">{study.industry}</p>
+  </div>
+  <div class="body">
+    <h3>{study.headline}</h3>
+    <dl>
+      <div>
+        <dt>Challenge</dt>
+        <dd>{study.challenge}</dd>
+      </div>
+      <div>
+        <dt>What I did</dt>
+        <dd>{study.action}</dd>
+      </div>
+      <div>
+        <dt>Result</dt>
+        <dd>{study.result}</dd>
+      </div>
+    </dl>
+  </div>
+  <ul class="metrics" aria-label="Key results">
+    {study.metrics.map((metric) => (
+      <li>{metric}</li>
+    ))}
+  </ul>
+</article>
+
+<style>
+  .study {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    margin-inline: -12px;
+    padding: 32px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .study:hover {
+    background: var(--band);
+  }
+  .who {
+    flex: 0 0 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--font-sans);
+  }
+  .industry {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .body {
+    flex: 999 1 420px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  h3 {
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  dl {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+  dt {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  dd {
+    max-width: 65ch;
+    margin-top: 2px;
+    color: var(--ink-2);
+  }
+  .metrics {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+  }
+</style>

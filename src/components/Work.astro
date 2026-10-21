@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import CaseStudy from "./CaseStudy.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const studies = (await getCollection("caseStudies"))
+  .map((entry) => entry.data)
+  .sort((a, b) => a.order - b.order);
+---
+
+<section id="work" class="container work" aria-labelledby="work-title">
+  <SectionHeading id="work-title" title="Selected work" />
+  <p class="meta note">
+    Engagements are described by industry. Recent work spans financial services, media, enterprise
+    software, consumer devices, travel, retail, and telecom.
+  </p>
+  <ol>
+    {studies.map((study, index) => (
+      <li>
+        <CaseStudy study={study} number={index + 1} />
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .work {
+    padding-bottom: clamp(64px, 9vw, 120px);
+    scroll-margin-top: 24px;
+  }
+  .note {
+    max-width: 72ch;
+    margin-bottom: 8px;
+  }
+</style>
