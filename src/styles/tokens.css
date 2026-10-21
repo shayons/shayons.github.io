@@ -1,12 +1,12 @@
 :root {
   color-scheme: light dark;
-  --bg: light-dark(#ffffff, #18181b);
+  --bg: light-dark(#ffffff, #000000);
   --ink: light-dark(#16161a, #f1eee8);
   --ink-2: light-dark(#3f4148, #d2cdd2);
   --muted: light-dark(#5c5f66, #aaa6ad);
   --line: light-dark(#e4e4e7, #3c383e);
-  --band: light-dark(#f4f4f5, #222125);
-  --accent: light-dark(#8a1c2b, #e8a1ad);
+  --band: light-dark(#f4f4f5, #000000);
+  --accent: light-dark(#8a1c2b, #b08968);
   --font-serif: "Newsreader Variable", Georgia, "Times New Roman", serif;
   --font-sans: "Inter Tight Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   --container: 1200px;

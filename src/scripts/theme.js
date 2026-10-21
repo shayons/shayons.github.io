@@ -16,10 +16,11 @@
     root.dataset.theme = choice;
     const dark = choice === "dark" || (choice === "system" && system.matches);
     document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
-      meta.setAttribute("content", dark ? "#18181b" : "#ffffff");
+      meta.setAttribute("content", dark ? "#000000" : "#ffffff");
     });
-    const picker = document.getElementById("color-theme");
-    if (picker instanceof HTMLSelectElement) picker.value = choice;
+    document.querySelectorAll('input[name="color-theme"]').forEach((input) => {
+      if (input instanceof HTMLInputElement) input.checked = input.value === choice;
+    });
   }
 
   apply();
@@ -32,13 +33,14 @@
   });
 
   document.addEventListener("DOMContentLoaded", () => {
-    const picker = document.getElementById("color-theme");
     const control = document.querySelector("[data-theme-picker]");
-    if (!(picker instanceof HTMLSelectElement) || !(control instanceof HTMLElement)) return;
-    picker.value = choice;
+    if (!(control instanceof HTMLElement)) return;
+    apply();
     control.hidden = false;
-    picker.addEventListener("change", () => {
-      choice = preference(picker.value);
+    control.addEventListener("change", (event) => {
+      const input = event.target;
+      if (!(input instanceof HTMLInputElement) || !input.checked) return;
+      choice = preference(input.value);
       apply();
       try {
         if (choice === "system") localStorage.removeItem(key);

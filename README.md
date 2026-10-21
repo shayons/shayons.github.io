@@ -9,8 +9,8 @@ Personal site of Shayon Sanyal: [shayons.github.io](https://shayons.github.io).
 Astro 7 with static output, self-hosted variable fonts, and GitHub Pages. The only client-side
 JavaScript is a small inline controller for the saved color-theme preference.
 
-Light and dark palettes follow the system automatically through CSS. The header's Auto / Light /
-Dark picker saves an override and applies it before the page paints. With JavaScript disabled,
+Light and dark palettes follow the system automatically through CSS. The header's sun, moon, and
+system icons save an override and apply it before the page paints. With JavaScript disabled,
 automatic theming and all content still work. Print uses the light palette. The build checks allow
 only the exact theme controller and reject other scripts or JavaScript assets.
 

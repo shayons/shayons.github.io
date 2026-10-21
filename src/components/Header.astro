@@ -16,20 +16,18 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     <a class="wordmark" href="/">
       {SITE.name}
     </a>
-    <div class="header-actions">
-      <nav aria-label="Primary">
-        <ul class="nav-list" role="list">
-          {NAV.map((item) => (
-            <li>
-              <a href={item.href} aria-current={item.href === currentHref ? "page" : undefined}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <ThemePicker />
-    </div>
+    <nav aria-label="Primary">
+      <ul class="nav-list" role="list">
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href} aria-current={item.href === currentHref ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <ThemePicker />
   </div>
 </header>
 
@@ -39,18 +37,19 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
   }
   .bar {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 4px 32px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 12px;
     align-items: center;
     justify-content: space-between;
     padding-block: 12px;
   }
-  .header-actions {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    min-width: 0;
+  nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .bar :global(.theme-picker) {
+    grid-column: 2;
+    grid-row: 1;
   }
   .wordmark {
     display: inline-flex;
@@ -64,7 +63,7 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
   .nav-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 12px;
+    gap: 0 16px;
     font-family: var(--font-sans);
     font-size: 14px;
     font-weight: 500;
@@ -79,25 +78,18 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     text-decoration: underline;
     text-decoration-color: var(--accent);
   }
-  @media (max-width: 599px) {
-    .nav-list {
-      column-gap: 8px;
-    }
-  }
-  @media (max-width: 379px) {
-    .nav-list {
-      display: grid;
-      grid-template-columns: repeat(3, max-content);
-      column-gap: 12px;
-    }
-  }
   @media (min-width: 800px) {
     .bar {
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      column-gap: 32px;
     }
-    .header-actions {
-      justify-content: flex-end;
-      gap: 32px;
+    nav {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+    }
+    .bar :global(.theme-picker) {
+      grid-column: 3;
     }
     .nav-list {
       gap: 0 24px;
