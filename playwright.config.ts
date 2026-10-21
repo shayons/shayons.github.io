@@ -7,7 +7,19 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "github" : "list",
   use: { baseURL: "http://localhost:4321" },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    {
+      // Safari has scroll timelines but not scroll triggers, so the site falls back to
+      // scroll-linked reveals there. This project runs the motion tests down that path.
+      name: "chromium-without-triggers",
+      testMatch: /motion\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: { args: ["--disable-blink-features=TimelineTrigger"] },
+      },
+    },
+  ],
   webServer: {
     // Astro 7 backgrounds `astro preview` when it detects an AI agent; --ignore-lock keeps a
     // one-off server in the foreground for Playwright (withastro/astro#17903).

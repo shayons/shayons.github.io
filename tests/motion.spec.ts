@@ -2,39 +2,61 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 type Pose = { opacity: number; rise: number; ruleScale: number };
 
-async function poseWithTopInView(target: Locator, pixelsIntoView: number): Promise<Pose> {
-  return target.evaluate(async (element, offset) => {
+async function scrollTopIntoView(target: Locator, pixelsIntoView: number): Promise<void> {
+  await target.evaluate(async (element, offset) => {
     const rise = new DOMMatrix(getComputedStyle(element).transform).m42;
     const layoutTop = element.getBoundingClientRect().top - rise + window.scrollY;
     window.scrollTo({ top: layoutTop - window.innerHeight + offset, behavior: "instant" });
     for (let frame = 0; frame < 3; frame += 1) {
       await new Promise(requestAnimationFrame);
     }
+  }, pixelsIntoView);
+}
+
+async function readPose(target: Locator): Promise<Pose> {
+  return target.evaluate((element) => {
     const style = getComputedStyle(element);
     return {
       opacity: Number(style.opacity),
       rise: new DOMMatrix(style.transform).m42,
       ruleScale: new DOMMatrix(getComputedStyle(element, "::before").transform).a,
     };
-  }, pixelsIntoView);
+  });
 }
 
-async function unsettledAtPageEnd(page: Page, path: string): Promise<string[]> {
+async function poseWithTopInView(target: Locator, pixelsIntoView: number): Promise<Pose> {
+  await scrollTopIntoView(target, pixelsIntoView);
+  return readPose(target);
+}
+
+async function usesTriggers(page: Page): Promise<boolean> {
+  return page.evaluate(() => CSS.supports("timeline-trigger: --reveal view()"));
+}
+
+async function scrollThrough(page: Page, path: string): Promise<void> {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto(path);
-  return page.evaluate(async () => {
-    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" });
-    for (let frame = 0; frame < 3; frame += 1) {
-      await new Promise(requestAnimationFrame);
+  await page.evaluate(async () => {
+    const end = document.documentElement.scrollHeight;
+    for (let top = 0; top < end + window.innerHeight; top += window.innerHeight / 2) {
+      window.scrollTo({ top, behavior: "instant" });
+      for (let frame = 0; frame < 2; frame += 1) {
+        await new Promise(requestAnimationFrame);
+      }
     }
-    return [...document.querySelectorAll("[data-reveal='scroll'], [data-rule]")]
+  });
+}
+
+async function unsettled(page: Page): Promise<string[]> {
+  return page.evaluate(() =>
+    [...document.querySelectorAll("[data-reveal='scroll'], [data-rule]")]
       .filter((element) => {
         const style = getComputedStyle(element);
         const rule = new DOMMatrix(getComputedStyle(element, "::before").transform);
         return style.opacity !== "1" || !new DOMMatrix(style.transform).isIdentity || rule.a !== 1;
       })
-      .map((element) => element.id || element.className);
-  });
+      .map((element) => element.id || element.className),
+  );
 }
 
 test("reduced motion: nothing animates and everything is visible", async ({ page }) => {
@@ -126,9 +148,39 @@ test("every home section block eases in, including the work note and contact blo
   await expect(page.locator("#contact > .stack[data-reveal='scroll'] .socials")).toHaveCount(1);
 });
 
-test("default motion: reveals play out where the reader is looking", async ({ page }) => {
+test("timed reveal: a block waits until it is 100px into view, then plays once", async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
+  test.skip(!(await usesTriggers(page)), "this browser reveals on a scroll-linked timeline");
+  const row = page.locator("#work article").first();
+  const who = row.locator(".who");
+  expect(await poseWithTopInView(who, 40)).toMatchObject({ opacity: 0, rise: 24 });
+  expect((await poseWithTopInView(who, 160)).opacity).toBeLessThan(0.9);
+  await expect.poll(() => readPose(who)).toMatchObject({ opacity: 1, rise: 0 });
+  const delays = await row
+    .locator("[data-reveal]")
+    .evaluateAll((elements) => elements.map((element) => getComputedStyle(element).animationDelay));
+  expect(delays).toEqual(["0s", "0.08s", "0.16s"]);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  expect((await poseWithTopInView(who, 160)).opacity).toBe(1);
+});
+
+test("timed reveal: a section rule draws with its heading", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  test.skip(!(await usesTriggers(page)), "this browser reveals on a scroll-linked timeline");
+  const heading = page.locator("#work .section-heading");
+  expect((await poseWithTopInView(heading, 40)).ruleScale).toBe(0);
+  expect((await poseWithTopInView(heading, 160)).ruleScale).toBeLessThan(0.9);
+  await expect.poll(async () => (await readPose(heading)).ruleScale).toBe(1);
+});
+
+test("scroll-linked reveal: blocks play out where the reader is looking", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  test.skip(await usesTriggers(page), "this browser plays timed reveals");
   const column = page.locator("#work article").first().locator(".who");
   expect((await poseWithTopInView(column, 40)).opacity).toBeLessThan(0.35);
   const midway = await poseWithTopInView(column, 110);
@@ -138,9 +190,10 @@ test("default motion: reveals play out where the reader is looking", async ({ pa
   expect(await poseWithTopInView(column, 280)).toMatchObject({ opacity: 1, rise: 0 });
 });
 
-test("default motion: a section rule draws while its heading rises", async ({ page }) => {
+test("scroll-linked reveal: a section rule draws while its heading rises", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
+  test.skip(await usesTriggers(page), "this browser plays timed reveals");
   const heading = page.locator("#work .section-heading");
   expect((await poseWithTopInView(heading, 30)).ruleScale).toBeLessThan(0.05);
   const drawing = (await poseWithTopInView(heading, 150)).ruleScale;
@@ -166,8 +219,11 @@ test("default motion: the portrait settles as soon as the page scrolls", async (
 });
 
 for (const path of ["/", "/talks/", "/blog/"]) {
-  test(`default motion: everything has settled at the end of ${path}`, async ({ page }) => {
-    expect(await unsettledAtPageEnd(page, path)).toEqual([]);
+  test(`default motion: everything has settled after scrolling through ${path}`, async ({
+    page,
+  }) => {
+    await scrollThrough(page, path);
+    await expect.poll(() => unsettled(page)).toEqual([]);
   });
 }
 
@@ -175,8 +231,11 @@ test.describe("phone", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   for (const path of ["/", "/talks/", "/blog/"]) {
-    test(`default motion: everything has settled at the end of ${path}`, async ({ page }) => {
-      expect(await unsettledAtPageEnd(page, path)).toEqual([]);
+    test(`default motion: everything has settled after scrolling through ${path}`, async ({
+      page,
+    }) => {
+      await scrollThrough(page, path);
+      await expect.poll(() => unsettled(page)).toEqual([]);
     });
   }
 });

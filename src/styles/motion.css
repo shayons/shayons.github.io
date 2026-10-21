@@ -57,7 +57,35 @@
     animation-delay: calc(var(--reveal-index, 0) * 80ms);
   }
 
-  @supports (animation-timeline: view()) {
+  @supports (timeline-trigger: --reveal view()) {
+    /* Each block plays a timed reveal once it is 100px into view, so the motion is
+       visible however fast the page scrolls. trigger-scope keeps every block on its
+       own trigger; without it, all of them would follow the last block declared. */
+    [data-reveal="scroll"],
+    [data-rule] {
+      timeline-trigger: --reveal view() cover 100px cover 100%;
+      trigger-scope: --reveal;
+    }
+
+    [data-reveal="scroll"] {
+      animation-name: scroll-rise;
+      animation-duration: 600ms;
+      animation-timing-function: var(--ease-out);
+      animation-fill-mode: both;
+      animation-delay: calc(var(--reveal-step, 0) * 80ms);
+      animation-trigger: --reveal play-once;
+    }
+
+    [data-rule]::before {
+      animation-name: rule-draw;
+      animation-duration: 700ms;
+      animation-timing-function: var(--ease-out);
+      animation-fill-mode: both;
+      animation-trigger: --reveal play-once;
+    }
+  }
+
+  @supports (animation-timeline: view()) and (not (timeline-trigger: --reveal view())) {
     /* Longhands on purpose: the build minifier folds animation-timeline into an
        animation shorthand, which browsers reject, and the reveal silently stops.
        Linear on purpose: the reader's scroll is the easing, and a curve spends most
@@ -80,7 +108,9 @@
       animation-timeline: view();
       animation-range: cover 40px cover calc(40px + min(240px, 30vh));
     }
+  }
 
+  @supports (animation-timeline: view()) {
     [data-zoom] img {
       animation-name: portrait-settle;
       animation-timing-function: linear;
