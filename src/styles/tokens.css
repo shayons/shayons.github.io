@@ -1,11 +1,12 @@
 :root {
-  --bg: #ffffff;
-  --ink: #16161a;
-  --ink-2: #3f4148;
-  --muted: #5c5f66;
-  --line: #e4e4e7;
-  --band: #f4f4f5;
-  --accent: #8a1c2b;
+  color-scheme: light dark;
+  --bg: light-dark(#ffffff, #18181b);
+  --ink: light-dark(#16161a, #f1eee8);
+  --ink-2: light-dark(#3f4148, #d2cdd2);
+  --muted: light-dark(#5c5f66, #aaa6ad);
+  --line: light-dark(#e4e4e7, #3c383e);
+  --band: light-dark(#f4f4f5, #222125);
+  --accent: light-dark(#8a1c2b, #e8a1ad);
   --font-serif: "Newsreader Variable", Georgia, "Times New Roman", serif;
   --font-sans: "Inter Tight Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   --container: 1200px;
@@ -14,4 +15,19 @@
   --column-gap: 32px;
   --aside-width: 160px;
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media screen {
+  :root[data-theme="light"] {
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
 }

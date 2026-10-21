@@ -1,5 +1,6 @@
 ---
 import { NAV, SITE } from "@/lib/site";
+import ThemePicker from "./ThemePicker.astro";
 
 interface Props {
   current?: "home" | "talks" | "blog";
@@ -15,17 +16,20 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     <a class="wordmark" href="/">
       {SITE.name}
     </a>
-    <nav aria-label="Primary">
-      <ul class="nav-list" role="list">
-        {NAV.map((item) => (
-          <li>
-            <a href={item.href} aria-current={item.href === currentHref ? "page" : undefined}>
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <div class="header-actions">
+      <nav aria-label="Primary">
+        <ul class="nav-list" role="list">
+          {NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={item.href === currentHref ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <ThemePicker />
+    </div>
   </div>
 </header>
 
@@ -34,12 +38,19 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     border-bottom: 1px solid var(--line);
   }
   .bar {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 4px 32px;
     align-items: center;
     justify-content: space-between;
     padding-block: 12px;
+  }
+  .header-actions {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    min-width: 0;
   }
   .wordmark {
     display: inline-flex;
@@ -53,9 +64,9 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
   .nav-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 28px;
+    gap: 0 12px;
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
   }
   .nav-list a {
@@ -67,5 +78,30 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
   .nav-list a[aria-current="page"] {
     text-decoration: underline;
     text-decoration-color: var(--accent);
+  }
+  @media (max-width: 599px) {
+    .nav-list {
+      column-gap: 8px;
+    }
+  }
+  @media (max-width: 379px) {
+    .nav-list {
+      display: grid;
+      grid-template-columns: repeat(3, max-content);
+      column-gap: 12px;
+    }
+  }
+  @media (min-width: 800px) {
+    .bar {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .header-actions {
+      justify-content: flex-end;
+      gap: 32px;
+    }
+    .nav-list {
+      gap: 0 24px;
+      font-size: 15px;
+    }
   }
 </style>

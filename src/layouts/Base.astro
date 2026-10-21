@@ -9,6 +9,7 @@ import "@/styles/motion.css";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 import { SITE } from "@/lib/site";
+import themeScript from "@/scripts/theme.js?raw";
 
 interface Props {
   title?: string;
@@ -40,7 +41,9 @@ const ogImage = new URL(SITE.ogImage, SITE.url).href;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
@@ -51,6 +54,7 @@ const ogImage = new URL(SITE.ogImage, SITE.url).href;
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Shayon Sanyal. PostgreSQL at scale. AI in production." />
     <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline id="color-theme-controller" set:html={themeScript}></script>
   </head>
   <body>
     <a class="skip-link" href="#main">

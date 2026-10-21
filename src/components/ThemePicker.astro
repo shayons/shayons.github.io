@@ -1,0 +1,48 @@
+<div class="theme-picker" data-theme-picker hidden>
+  <label for="color-theme">Theme</label>
+  <select id="color-theme" aria-label="Color theme" title="Color theme">
+    <option value="system">Auto</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+</div>
+
+<style>
+  .theme-picker:not([hidden]) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    font-family: var(--font-sans);
+    font-size: 14px;
+  }
+  label {
+    color: var(--muted);
+  }
+  select {
+    min-width: 76px;
+    min-height: 44px;
+    padding-inline: 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--ink);
+    font: inherit;
+    cursor: pointer;
+  }
+  @media (max-width: 599px) {
+    label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+  @media print {
+    .theme-picker:not([hidden]) {
+      display: none;
+    }
+  }
+</style>

@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -8,6 +8,10 @@ const BANNED = [
 ];
 
 const LINK_ATTRIBUTE = /\s(?:href|src)="([^"]+)"/g;
+const THEME_SCRIPT = readFileSync(
+  new URL("../src/scripts/theme.js", import.meta.url),
+  "utf8",
+).trim();
 
 function stripCode(html) {
   return html.replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<script[\s\S]*?<\/script>/gi, " ");
@@ -35,7 +39,7 @@ export function findBannedCharacters(html) {
 }
 
 /**
- * Counts opening script tags so the build can prove it ships no JavaScript.
+ * Counts opening script tags so the build can reject unexpected JavaScript.
  * @param {string} html Page HTML.
  * @returns {number} Number of script tags.
  */
@@ -100,13 +104,19 @@ async function checkLinks(distDir, html, readCached) {
 async function checkPage(distDir, file, readCached) {
   const html = await readCached(file);
   const messages = findBannedCharacters(html).map((f) => `${f.name} near "${f.context}"`);
-  if (countScriptTags(html) > 0) messages.push("<script> tag in page");
+  // Allow exactly one inline theme controller, byte-matched to its source. Other
+  // inline scripts, duplicate controllers, and all JavaScript assets remain banned.
+  const withoutTheme = html.replace(
+    /<script id="color-theme-controller">([\s\S]*?)<\/script>/,
+    (tag, source) => (source.trim() === THEME_SCRIPT ? "" : tag),
+  );
+  if (countScriptTags(withoutTheme) > 0) messages.push("<script> tag in page");
   messages.push(...(await checkLinks(distDir, html, readCached)));
   return messages.map((message) => ({ file, message }));
 }
 
 /**
- * Runs every build-output check: no JavaScript files, no script tags, no banned characters,
+ * Runs every build-output check: no JavaScript assets, only the approved theme script, no banned characters,
  * and every internal link resolves to a file (and to its #fragment when one is given).
  * @param {string} distDir Build output directory.
  * @returns {Promise<{file: string, message: string}[]>} Problems found; empty when clean.

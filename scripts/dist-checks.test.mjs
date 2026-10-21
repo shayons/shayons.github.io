@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { after, before, describe, it } from "node:test";
@@ -28,6 +28,44 @@ describe("findBannedCharacters", () => {
       [],
     );
   });
+});
+
+describe("theme script allowance", () => {
+  let dist;
+  let source;
+
+  before(async () => {
+    dist = await mkdtemp(path.join(tmpdir(), "theme-dist-checks-"));
+    source = await readFile(new URL("../src/scripts/theme.js", import.meta.url), "utf8");
+  });
+
+  after(async () => {
+    await rm(dist, { recursive: true, force: true });
+  });
+
+  it("allows the approved inline theme controller", async () => {
+    await writeFile(
+      path.join(dist, "index.html"),
+      `<script id="color-theme-controller">${source}</script>`,
+    );
+    assert.deepEqual(await checkDist(dist), []);
+  });
+
+  for (const variant of ["modified", "duplicate", "additional"]) {
+    it(`rejects ${variant} scripts`, async () => {
+      const controller = `<script id="color-theme-controller">${source}</script>`;
+      const html = {
+        modified: `<script id="color-theme-controller">${source}alert(1)</script>`,
+        duplicate: controller + controller,
+        additional: `${controller}<script src="https://example.com/extra.js"></script>`,
+      }[variant];
+      await writeFile(path.join(dist, "index.html"), html);
+      assert.deepEqual(
+        (await checkDist(dist)).map((problem) => problem.message),
+        ["<script> tag in page"],
+      );
+    });
+  }
 });
 
 describe("internalTargets", () => {
