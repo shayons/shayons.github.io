@@ -71,3 +71,20 @@ test("print: nothing animates and below-the-fold content is visible", async ({ p
     .evaluate((element) => getComputedStyle(element).opacity);
   expect(opacity).toBe("1");
 });
+
+test("in-page navigation scrolls smoothly, except for reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  const html = page.locator("html");
+  expect(await html.evaluate((element) => getComputedStyle(element).scrollBehavior)).toBe("smooth");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(await html.evaluate((element) => getComputedStyle(element).scrollBehavior)).toBe("auto");
+});
+
+test("every home section block eases in, including the work note and contact links", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator("#work > .note[data-reveal='scroll']")).toHaveCount(1);
+  await expect(page.locator("#contact .socials[data-reveal='scroll']")).toHaveCount(1);
+});
