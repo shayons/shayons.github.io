@@ -9,6 +9,17 @@
   }
 }
 
+@keyframes scroll-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes rule-draw {
   from {
     transform: scaleX(0);
@@ -23,7 +34,7 @@
     transform: scale(1);
   }
   to {
-    transform: scale(1.04);
+    transform: scale(1.06);
   }
 }
 
@@ -48,21 +59,26 @@
 
   @supports (animation-timeline: view()) {
     /* Longhands on purpose: the build minifier folds animation-timeline into an
-       animation shorthand, which browsers reject, and the reveal silently stops. */
+       animation shorthand, which browsers reject, and the reveal silently stops.
+       Linear on purpose: the reader's scroll is the easing, and a curve spends most
+       of the change at the bottom edge of the screen, where nobody is looking.
+       Each reveal settles within 240px of entering (30vh on short screens), so it
+       plays out in view and still finishes for the last blocks on a page. */
     [data-reveal="scroll"] {
-      animation-name: rise-in;
-      animation-timing-function: var(--ease-out);
+      --reveal-from: calc(var(--reveal-step, 0) * 40px);
+      animation-name: scroll-rise;
+      animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry calc(var(--reveal-step, 0) * 12%) entry 100%;
+      animation-range: cover var(--reveal-from) cover calc(var(--reveal-from) + min(240px, 30vh));
     }
 
     [data-rule]::before {
       animation-name: rule-draw;
-      animation-timing-function: var(--ease-out);
+      animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: entry 100% cover 20%;
+      animation-range: cover 40px cover calc(40px + min(240px, 30vh));
     }
 
     [data-zoom] img {
@@ -70,7 +86,7 @@
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: view();
-      animation-range: exit 0% exit 100%;
+      animation-range: cover 50% cover 100%;
     }
   }
 

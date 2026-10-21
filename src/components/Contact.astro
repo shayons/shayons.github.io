@@ -3,25 +3,29 @@ import { SOCIALS } from "@/lib/site";
 ---
 
 <section id="contact" class="container contact" aria-labelledby="contact-title">
-  <h2 id="contact-title" data-reveal="scroll">
-    Taking an AI system to production? <em>Let’s talk.</em>
-  </h2>
-  <ul class="socials" role="list" data-reveal="scroll" style="--reveal-step: 1">
-    {SOCIALS.map((social) => (
-      <li>
-        <a href={social.href}>{social.label}</a>
-      </li>
-    ))}
-  </ul>
+  <div class="stack" data-reveal="scroll">
+    <h2 id="contact-title">
+      Taking an AI system to production? <em>Let’s talk.</em>
+    </h2>
+    <ul class="socials" role="list">
+      {SOCIALS.map((social) => (
+        <li>
+          <a href={social.href}>{social.label}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </section>
 
 <style>
   .contact {
+    padding-top: clamp(80px, 10vw, 140px);
+    scroll-margin-top: 24px;
+  }
+  .stack {
     display: flex;
     flex-direction: column;
     gap: 28px;
-    padding-top: clamp(80px, 10vw, 140px);
-    scroll-margin-top: 24px;
   }
   h2 {
     max-width: 18ch;
