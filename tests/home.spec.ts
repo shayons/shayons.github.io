@@ -55,3 +55,20 @@ test.describe("selected work", () => {
     await expect(page.locator("#work a")).toHaveCount(0);
   });
 });
+
+test.describe("approach", () => {
+  test("states the principle and four numbered steps without separators", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator("#approach");
+    await expect(section.getByRole("heading", { level: 2 })).toHaveText(
+      "LLM at the edges, determinism in the core.",
+    );
+    await expect(section.locator(".step-number")).toHaveText(["01", "02", "03", "04"]);
+    await expect(section.locator(".step-label")).toHaveText([
+      "01 Discover",
+      "02 Evaluate",
+      "03 Build",
+      "04 Ship",
+    ]);
+  });
+});

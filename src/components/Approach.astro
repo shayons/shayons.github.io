@@ -1,0 +1,96 @@
+---
+const STEPS = [
+  {
+    word: "Discover",
+    text: "Work with executives and engineers to find use cases that have a measurable outcome and a named owner.",
+  },
+  {
+    word: "Evaluate",
+    text: "Write task-specific evals before the architecture: fixed rubrics, independent ground truth, and a baseline to beat.",
+  },
+  {
+    word: "Build",
+    text: "Prototype with guardrails from day one: identity-bound access, human approval for writes, and audit trails.",
+  },
+  {
+    word: "Ship",
+    text: "Cut over, hand off with runbooks, and take what the field learned back to product teams.",
+  },
+];
+---
+
+<section id="approach" class="band" aria-labelledby="approach-title">
+  <div class="container inner">
+    <div class="intro" data-reveal="scroll">
+      <h2 id="approach-title">LLM at the edges, determinism in the core.</h2>
+      <p class="sub">How an engagement runs, from the first meeting to the handoff.</p>
+    </div>
+    <ol class="steps">
+      {STEPS.map((step, index) => (
+        <li data-reveal="scroll">
+          <p class="step-label">
+            <span class="step-number">{String(index + 1).padStart(2, "0")}</span>{" "}
+            <span>{step.word}</span>
+          </p>
+          <p class="step-text">{step.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .band {
+    background: var(--band);
+    scroll-margin-top: 24px;
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-block: clamp(64px, 8vw, 104px);
+  }
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  h2 {
+    max-width: 22ch;
+    font-size: clamp(30px, 3.4vw, 46px);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
+  .sub {
+    font-size: 19px;
+    color: var(--ink-2);
+  }
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .steps li {
+    flex: 1 1 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ink);
+  }
+  .step-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .step-number {
+    color: var(--accent);
+  }
+  .step-text {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+</style>
