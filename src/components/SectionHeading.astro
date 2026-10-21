@@ -7,7 +7,7 @@ interface Props {
 const { id, title } = Astro.props;
 ---
 
-<div class="section-heading" data-reveal="scroll">
+<div class="section-heading" data-reveal="scroll" data-rule>
   <h2 id={id}>{title}</h2>
   <slot />
 </div>
@@ -19,12 +19,19 @@ const { id, title } = Astro.props;
     gap: 8px 32px;
     align-items: baseline;
     justify-content: space-between;
+    position: relative;
     margin-bottom: 8px;
     padding-top: 20px;
-    border-top: 2px solid var(--ink);
     font-family: var(--font-sans);
     font-size: 15px;
     font-weight: 600;
+  }
+  .section-heading::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    border-top: 2px solid var(--ink);
+    transform-origin: left center;
   }
   .section-heading :global(a) {
     display: inline-flex;

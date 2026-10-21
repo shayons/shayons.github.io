@@ -124,9 +124,17 @@ main:focus {
 }
 
 .year {
+  position: relative;
   margin-top: 48px;
   padding-top: 16px;
-  border-top: 2px solid var(--ink);
   font-size: 28px;
   font-weight: 500;
+}
+
+.year::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  border-top: 2px solid var(--ink);
+  transform-origin: left center;
 }

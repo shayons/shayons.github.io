@@ -27,7 +27,7 @@ const STEPS = [
     </div>
     <ol class="steps" role="list">
       {STEPS.map((step, index) => (
-        <li data-reveal="scroll">
+        <li data-reveal="scroll" style={`--reveal-step: ${index}`}>
           <p class="step-label">
             <span class="step-number">{String(index + 1).padStart(2, "0")}</span>{" "}
             <span>{step.word}</span>

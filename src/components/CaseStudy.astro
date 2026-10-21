@@ -10,12 +10,12 @@ const { study, number } = Astro.props;
 const numberLabel = String(number).padStart(2, "0");
 ---
 
-<article class="study" data-reveal="scroll">
-  <div class="who">
+<article class="study">
+  <div class="who" data-reveal="scroll" style="--reveal-step: 0">
     <span class="meta">{numberLabel}</span>
     <p class="industry">{study.industry}</p>
   </div>
-  <div class="body">
+  <div class="body" data-reveal="scroll" style="--reveal-step: 1">
     <h3>{study.headline}</h3>
     <dl>
       <div>
@@ -32,7 +32,13 @@ const numberLabel = String(number).padStart(2, "0");
       </div>
     </dl>
   </div>
-  <ul class="metrics" role="list" aria-label="Key results">
+  <ul
+    class="metrics"
+    role="list"
+    aria-label="Key results"
+    data-reveal="scroll"
+    style="--reveal-step: 2"
+  >
     {study.metrics.map((metric) => (
       <li>{metric}</li>
     ))}

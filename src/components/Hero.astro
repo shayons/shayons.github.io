@@ -23,7 +23,7 @@ import { SITE } from "@/lib/site";
       <a href="/#contact">Get in touch</a>
     </p>
   </div>
-  <figure data-reveal="load" style="--reveal-index: 2">
+  <figure data-zoom>
     <Picture
       src={portrait}
       formats={["avif", "webp"]}
@@ -90,6 +90,9 @@ import { SITE } from "@/lib/site";
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+  figure :global(picture) {
+    overflow: hidden;
   }
   figure :global(img) {
     width: 100%;

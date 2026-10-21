@@ -20,7 +20,7 @@ const years = groupByYear(talks);
     </header>
     {years.map(({ year, entries }) => (
       <section aria-labelledby={`year-${year}`}>
-        <h2 id={`year-${year}`} class="year">
+        <h2 id={`year-${year}`} class="year" data-rule>
           {year}
         </h2>
         <ul role="list">
