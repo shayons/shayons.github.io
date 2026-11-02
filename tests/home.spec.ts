@@ -10,8 +10,10 @@ test.describe("home hero", () => {
   test("has the title, a single h1, and the hero copy", async ({ page }) => {
     await expect(page).toHaveTitle("Shayon Sanyal | PostgreSQL, Data & AI");
     await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator("h1")).toHaveText("PostgreSQL at scale. AI in production.");
-    await expect(page.getByText("Data & AI architect in New York")).toBeVisible();
+    await expect(page.locator("h1")).toHaveText(
+      "Agents, retrieval, and evals. Built on PostgreSQL. Shipped to production.",
+    );
+    await expect(page.getByText("Applied AI builder in New York")).toBeVisible();
   });
 
   test("shows the portrait with alt text and modern formats", async ({ page }) => {
