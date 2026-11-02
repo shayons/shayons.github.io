@@ -51,10 +51,14 @@
     "id": "global-bank-adoption",
     "order": 5,
     "industry": "Global bank",
-    "headline": "An adoption roadmap across hundreds of applications",
-    "challenge": "Modernize a database estate of thousands of instances.",
-    "action": "Owned the technical account plan and built champions from engineering leads to platform executives.",
-    "result": "The bank now runs its own database Center of Excellence.",
-    "metrics": ["Thousands of instances", "Customer-run Center of Excellence"]
+    "headline": "Performance and multi-region resilience at fleet scale",
+    "challenge": "Keep thousands of PostgreSQL instances fast and recoverable, including a global deposits platform with strict recovery objectives.",
+    "action": "Ran per-cluster performance analysis and a two-day onsite performance review, then designed the deposits platform’s multi-region topology: sizing, failover, recovery point and time objectives, and upgrade paths. Reviewed write forwarding, driver-level failover, and streaming-write patterns with the platform engineers.",
+    "result": "A multi-region design the bank’s engineers own, and an internal database Center of Excellence that carries the practices forward.",
+    "metrics": [
+      "Thousands of instances",
+      "Multi-region RPO/RTO design",
+      "Per-cluster performance reviews"
+    ]
   }
 ]
