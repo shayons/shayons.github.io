@@ -22,7 +22,7 @@ for (const width of [768, 1024]) {
     await page.goto("/");
     for (const [description, supporting] of [
       [".study .body", ".study .metrics"],
-      [".talk .what", ".talk .how"],
+      [".talk h3", ".talk .how"],
     ]) {
       const main = await page.locator(description).first().boundingBox();
       const details = await page.locator(supporting).first().boundingBox();

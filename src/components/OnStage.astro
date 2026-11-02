@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import { newestPerTitle } from "@/lib/dates.mjs";
 import SectionHeading from "./SectionHeading.astro";
-import TalkRow from "./TalkRow.astro";
+import TalkTimeline from "./TalkTimeline.astro";
 
 const talks = (await getCollection("talks")).map((entry) => entry.data);
 const recent = newestPerTitle(talks).slice(0, 5);
@@ -12,11 +12,7 @@ const recent = newestPerTitle(talks).slice(0, 5);
   <SectionHeading id="on-stage-title" title="On stage">
     <a href="/talks/">All {talks.length} sessions</a>
   </SectionHeading>
-  <ul role="list">
-    {recent.map((talk) => (
-      <TalkRow talk={talk} />
-    ))}
-  </ul>
+  <TalkTimeline talks={recent} />
 </section>
 
 <style>
