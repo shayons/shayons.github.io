@@ -3,7 +3,7 @@ export const SITE = {
   url: "https://shayons.github.io",
   title: "Shayon Sanyal | PostgreSQL, Data & AI",
   description:
-    "The portfolio of Shayon Sanyal, an applied AI builder in New York. Agents, retrieval, and evals built on PostgreSQL and shipped to production.",
+    "The portfolio of Shayon Sanyal, an applied AI builder in New York. Agents, retrieval, evals and PostgreSQL, built for production.",
   role: "Principal Solutions Architect, Amazon Web Services",
   ogImage: "/og.png",
 } as const;

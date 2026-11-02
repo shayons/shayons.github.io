@@ -123,9 +123,7 @@ test("dark mode remains automatic without JavaScript", async ({ browser }) => {
     await page.goto("http://localhost:4321/");
     expect(await background(page)).toBe(DARK);
     await expect(page.getByRole("group", { name: "Color theme" })).toBeHidden();
-    await expect(page.locator("h1")).toHaveText(
-      "Agents, retrieval, and evals. Built on PostgreSQL. Shipped to production.",
-    );
+    await expect(page.locator("h1")).toHaveText("Agents, retrieval, evals and PostgreSQL.");
     await page.getByRole("link", { name: "Talks", exact: true }).click();
     expect(await background(page)).toBe(DARK);
   } finally {
