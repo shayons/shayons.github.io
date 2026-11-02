@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import { newestPerTitle } from "@/lib/dates.mjs";
+import { newestFirst } from "@/lib/dates.mjs";
 import SectionHeading from "./SectionHeading.astro";
 import TalkTimeline from "./TalkTimeline.astro";
 
 const talks = (await getCollection("talks")).map((entry) => entry.data);
-const recent = newestPerTitle(talks).slice(0, 5);
+const recent = newestFirst(talks).slice(0, 5);
 ---
 
 <section id="on-stage" class="container on-stage" aria-labelledby="on-stage-title">
