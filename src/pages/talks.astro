@@ -14,13 +14,13 @@ const years = groupByYear(talks);
   current="talks"
 >
   <div class="container page">
-    <header class="page-head">
+    <header class="page-head" data-reveal="load">
       <h1>Talks</h1>
       <p class="meta">{talks.length} sessions on agentic AI, retrieval, and PostgreSQL.</p>
     </header>
     {years.map(({ year, entries }) => (
       <section aria-labelledby={`year-${year}`}>
-        <h2 id={`year-${year}`} class="year">
+        <h2 id={`year-${year}`} class="year" data-rule>
           {year}
         </h2>
         <ul role="list">

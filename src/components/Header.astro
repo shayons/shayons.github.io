@@ -32,9 +32,6 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
 </header>
 
 <style>
-  .site-header {
-    border-bottom: 1px solid var(--line);
-  }
   .bar {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -76,8 +73,7 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     text-decoration: none;
   }
   .nav-list a[aria-current="page"] {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
+    color: var(--accent);
   }
   @media (min-width: 800px) {
     .bar {

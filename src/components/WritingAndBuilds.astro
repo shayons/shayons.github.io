@@ -24,7 +24,7 @@ const projects = (await getCollection("projects"))
     <SectionHeading id="builds-title" title="Builds" />
     <ul class="builds" role="list">
       {projects.map((project) => (
-        <li class:list={["build", { linked: Boolean(project.url) }]}>
+        <li class:list={["build", { linked: Boolean(project.url) }]} data-reveal="scroll">
           <div class="build-head">
             {project.url ? (
               <a class="name" href={project.url}>
@@ -55,76 +55,108 @@ const projects = (await getCollection("projects"))
     padding-top: var(--section-space);
   }
   .home-posts {
-    margin-top: 8px;
+    display: grid;
+    gap: 4px;
   }
   .builds {
     display: grid;
-    gap: 0 56px;
-    margin-top: 8px;
+    gap: 16px;
   }
   .build {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     min-width: 0;
-    padding: 26px 0;
-    border-bottom: 1px solid var(--line);
+    padding: 24px 26px 28px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    transition:
+      background-color var(--duration-state) var(--ease-out),
+      box-shadow var(--duration-state) var(--ease-out),
+      transform var(--duration-state) var(--ease-out);
+  }
+  .build.linked:hover,
+  .build.linked:focus-within {
+    background: var(--raised);
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--ink) 6%, transparent),
+      0 24px 48px -28px color-mix(in oklab, var(--ink) 40%, transparent);
   }
   .build-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
   }
   .name {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
     font-family: var(--font-serif);
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 450;
     line-height: 1.2;
     letter-spacing: -0.01em;
     text-decoration: none;
+    transition: color var(--duration-state) var(--ease-out);
   }
+  /* The whole card is the link target; the name stays the accessible link text. */
   .build a.name::after {
     content: "";
     position: absolute;
     inset: 0;
+    border-radius: inherit;
   }
   .build a.name:focus-visible {
     outline: none;
   }
   .build:has(a.name:focus-visible) {
     outline: 2px solid var(--accent);
-    outline-offset: 6px;
+    outline-offset: 3px;
   }
   .build.linked:hover .name {
     color: var(--accent);
   }
   .tag {
     flex: none;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
     font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 10%, transparent);
+  }
+  .tag.internal {
     color: var(--muted);
+    background: color-mix(in oklab, var(--muted) 12%, transparent);
   }
   .build .meta {
-    max-width: 49ch;
-    margin-top: 8px;
     font-size: 15px;
-    line-height: 1.65;
+    line-height: 1.6;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .build.linked:hover,
+    .build.linked:focus-within {
+      transform: translateY(-3px);
+    }
+  }
+  @media (min-width: 640px) {
+    .builds {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   @media (min-width: 760px) {
     .home-posts {
-      display: grid;
       grid-template-columns: 1fr 1.25fr;
-      column-gap: 56px;
+      column-gap: 48px;
     }
     .home-posts :global(.post:first-child) {
       grid-column: 1;
       grid-row: 1 / span 3;
-      border-bottom: 0;
     }
     .home-posts :global(.post:first-child a) {
       min-height: 100%;
-      padding-right: 28px;
     }
     .home-posts :global(.post:first-child .title) {
       font-size: clamp(30px, 3vw, 40px);
@@ -134,8 +166,10 @@ const projects = (await getCollection("projects"))
     .home-posts :global(.post:not(:first-child)) {
       grid-column: 2;
     }
+  }
+  @media (min-width: 1160px) {
     .builds {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>

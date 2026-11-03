@@ -9,9 +9,9 @@ const studies = (await getCollection("caseStudies"))
 
 <section id="work" class="container work" aria-labelledby="work-title">
   <SectionHeading id="work-title" title="Selected work" />
-  <p class="meta note">
-    Selected engagements across data platforms and applied AI. Organizations are described by
-    industry.
+  <p class="meta note" data-reveal="scroll">
+    Selected engagements across data platforms and applied AI. Open a card for the full story.
+    Organizations are described by industry.
   </p>
   <ol class="grid" role="list">
     {studies.map((study) => (
@@ -30,6 +30,36 @@ const studies = (await getCollection("caseStudies"))
     margin-bottom: 28px;
   }
   .grid {
-    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-flow: row dense;
+    gap: 16px;
+    align-items: start;
+  }
+  /* Five studies fill every row: one over two pairs on tablets, two over three on wide
+     screens. */
+  @media (min-width: 720px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+    }
+    .grid > li:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 1100px) {
+    .grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    .grid > li {
+      grid-column: span 2;
+    }
+    .grid > li:nth-child(-n + 2) {
+      grid-column: span 3;
+    }
+  }
+  /* An opened case study takes the full row so its detail has room. */
+  .grid > li:has(details[open]) {
+    grid-column: 1 / -1;
   }
 </style>

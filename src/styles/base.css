@@ -12,6 +12,8 @@ body {
   font-optical-sizing: auto;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   scrollbar-color: var(--muted) var(--bg);
   caret-color: var(--accent);
 }
@@ -49,17 +51,19 @@ ul {
 a {
   color: inherit;
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+  text-underline-offset: 4px;
 }
 
 a:hover {
   color: var(--accent);
+  text-decoration-color: currentColor;
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 main:focus {
@@ -134,16 +138,36 @@ main:focus {
 
 .year {
   position: relative;
-  margin-top: 48px;
-  padding-top: 16px;
-  font-size: 20px;
-  font-weight: 500;
+  margin-top: 64px;
+  margin-bottom: 8px;
+  padding-top: 20px;
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 450;
+  letter-spacing: -0.015em;
+  color: var(--accent);
+  font-variant-numeric: lining-nums;
 }
 
 .year::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
-  border-top: 1px solid var(--ink);
+  border-top: 1px solid var(--line);
   transform-origin: left center;
+}
+
+/* A rounded surface that eases in behind a row on hover, bleeding into the gutter so the
+   row's text stays aligned with the page edge. */
+.soft-row {
+  margin-inline: calc(-1 * var(--bleed));
+  padding-inline: var(--bleed);
+  border-radius: var(--radius-md);
+  transition: background-color var(--duration-state) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .soft-row:hover {
+    background: var(--surface);
+  }
 }
