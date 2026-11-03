@@ -11,7 +11,9 @@ test.describe("home hero", () => {
     await expect(page).toHaveTitle("Shayon Sanyal | PostgreSQL, Data & AI");
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("h1")).toHaveText("Agents, retrieval, evals and PostgreSQL.");
-    await expect(page.getByText("Applied AI builder in New York")).toBeVisible();
+    await expect(page.locator(".hero .role")).toHaveText(
+      "Agentic AI tech lead for databases at AWS",
+    );
   });
 
   test("shows the portrait with alt text and modern formats", async ({ page }) => {
