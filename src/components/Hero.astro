@@ -5,103 +5,112 @@ import { SITE } from "@/lib/site";
 ---
 
 <section class="hero container" aria-labelledby="hero-title">
-  <div class="copy">
-    <h1 id="hero-title" data-reveal="load" style="--reveal-index: 0">
-      <span>Agents, retrieval, evals</span>{" "}
-      <span>
-        and <em>PostgreSQL.</em>
-      </span>
-    </h1>
-    <p class="role" data-reveal="load" style="--reveal-index: 1">
-      Applied AI builder in New York
-    </p>
-    <p class="lede" data-reveal="load" style="--reveal-index: 2">
-      I’m Shayon, a Principal Solutions Architect and agentic AI tech lead at AWS. My work spans
-      vector search at 100B+ embeddings, hyper-personalized multi-tenant semantic data layers, and
-      autonomous DBA agents that act only with human approval and verify every change they make. For
-      16 years, I’ve worked alongside engineers and executives to ship systems their teams can
-      operate, extend, and own.
-    </p>
-    <p class="links" data-reveal="load" style="--reveal-index: 3">
-      <a href="/#work">Selected work</a>
-      <a href="/#contact">Get in touch</a>
+  <div class="hero-main">
+    <div class="copy">
+      <h1 id="hero-title">
+        <span>Agents, retrieval, evals</span> <span>and PostgreSQL.</span>
+      </h1>
+      <p class="lede">
+        I’m Shayon, a Principal Solutions Architect and agentic AI tech lead at AWS.
+      </p>
+      <p class="links">
+        <a class="primary-link" href="/#work">
+          Selected work
+        </a>
+        <a href="/#contact">Get in touch</a>
+      </p>
+    </div>
+    <figure>
+      <Picture
+        src={portrait}
+        formats={["avif", "webp"]}
+        widths={[420, 840]}
+        sizes="(min-width: 900px) 288px, 128px"
+        alt="Portrait of Shayon Sanyal"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <figcaption class="meta">{SITE.role}</figcaption>
+    </figure>
+  </div>
+  <div class="profile-note">
+    <p class="role">Applied AI builder in New York</p>
+    <p class="bio-copy">
+      My work spans vector search at 100B+ embeddings, hyper-personalized multi-tenant semantic data
+      layers, and autonomous DBA agents that act only with human approval and verify every change
+      they make. For 16 years, I’ve worked alongside engineers and executives to ship systems their
+      teams can operate, extend, and own.
     </p>
   </div>
-  <figure data-zoom>
-    <Picture
-      src={portrait}
-      formats={["avif", "webp"]}
-      widths={[420, 840]}
-      sizes="(min-width: 1040px) 320px, min(100vw, 420px)"
-      alt="Portrait of Shayon Sanyal"
-      loading="eager"
-      fetchpriority="high"
-    />
-    <figcaption class="meta">{SITE.role}</figcaption>
-  </figure>
 </section>
 
 <style>
   .hero {
+    padding-block: clamp(40px, 5.5vw, 76px) var(--section-space);
+  }
+  .hero-main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
+    gap: 32px;
     align-items: center;
-    padding-block: clamp(48px, 7vw, 88px) var(--section-space);
   }
   .copy {
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .role {
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--accent);
   }
   h1 {
-    font-size: clamp(44px, 5.2vw, 72px);
-    font-weight: 500;
-    line-height: 1.02;
-    letter-spacing: -0.025em;
-    text-wrap: balance;
+    font-family: var(--font-serif);
+    font-size: clamp(44px, 5.4vw, 76px);
+    font-weight: 450;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
   }
   h1 span {
     display: block;
   }
-  em {
-    color: var(--accent);
-  }
   .lede {
-    max-width: 58ch;
-    font-size: clamp(19px, 1.5vw, 21px);
-    line-height: 1.55;
+    max-width: 41ch;
+    margin-top: 26px;
+    font-size: clamp(18px, 1.6vw, 21px);
+    line-height: 1.6;
     color: var(--ink-2);
+    text-wrap: pretty;
   }
   .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 28px;
-    font-family: var(--font-sans);
-    font-size: 16px;
-    font-weight: 600;
+    align-items: center;
+    gap: 12px 28px;
+    margin-top: 28px;
+    font-size: 14px;
+    font-weight: 550;
   }
   .links a {
     display: inline-flex;
     align-items: center;
-    min-height: 44px;
+    justify-content: center;
+    min-height: 46px;
+    text-underline-offset: 5px;
+  }
+  .links .primary-link {
+    padding: 12px 22px;
+    background: var(--ink);
+    color: var(--bg);
+    border: 1px solid var(--ink);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .primary-link:hover {
+    background: var(--accent);
+    border-color: var(--accent);
   }
   figure {
-    width: 100%;
-    max-width: 300px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    gap: 20px;
   }
   figure :global(picture) {
+    flex: 0 0 128px;
     overflow: clip;
+    border-radius: 3px;
   }
   figure :global(img) {
     width: 100%;
@@ -110,12 +119,48 @@ import { SITE } from "@/lib/site";
     object-position: 50% 30%;
   }
   figcaption {
-    font-size: 13px;
+    max-width: 24ch;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .profile-note {
+    display: grid;
+    gap: 16px;
+    margin-top: clamp(32px, 4.5vw, 60px);
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+  .role {
+    max-width: 19ch;
+    font-size: 14px;
+    font-weight: 550;
+    line-height: 1.5;
+    color: var(--accent);
+  }
+  .bio-copy {
+    max-width: var(--measure);
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+  @media (min-width: 700px) {
+    .profile-note {
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 32px;
+    }
   }
   @media (min-width: 900px) {
-    .hero {
-      grid-template-columns: minmax(0, 1fr) 300px;
+    .hero-main {
+      grid-template-columns: minmax(0, 1fr) 288px;
       gap: clamp(40px, 5vw, 72px);
+    }
+    figure {
+      display: block;
+    }
+    figcaption {
+      margin-top: 12px;
+      max-width: none;
     }
   }
 </style>

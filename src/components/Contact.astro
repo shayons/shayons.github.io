@@ -3,7 +3,7 @@ import { SOCIALS } from "@/lib/site";
 ---
 
 <section id="contact" class="container contact" aria-labelledby="contact-title">
-  <div class="stack" data-reveal="scroll">
+  <div class="stack">
     <h2 id="contact-title">
       Let’s talk PostgreSQL, data, <em>and AI.</em>
     </h2>
@@ -26,29 +26,40 @@ import { SOCIALS } from "@/lib/site";
     display: flex;
     flex-direction: column;
     gap: 28px;
+    padding-top: 40px;
+    border-top: 1px solid var(--ink);
   }
   h2 {
-    max-width: 18ch;
-    font-size: clamp(36px, 5vw, 68px);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    max-width: 20ch;
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 4.5vw, 60px);
+    font-weight: 450;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
     text-wrap: balance;
   }
   em {
-    color: var(--accent);
+    font-style: normal;
   }
   .socials {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 32px;
-    font-family: var(--font-sans);
-    font-size: 17px;
-    font-weight: 600;
+    gap: 0 28px;
+    font-size: 15px;
+    font-weight: 550;
   }
   .socials a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+    text-underline-offset: 5px;
+  }
+  @media (min-width: 900px) {
+    .stack {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+    }
   }
 </style>

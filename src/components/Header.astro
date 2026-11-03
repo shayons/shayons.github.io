@@ -55,8 +55,9 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 23px;
+    font-family: var(--font-serif);
+    font-weight: 500;
     letter-spacing: -0.01em;
     text-decoration: none;
   }
@@ -94,6 +95,11 @@ const currentHref = current === "talks" || current === "blog" ? CURRENT_HREF[cur
     .nav-list {
       gap: 0 24px;
       font-size: 15px;
+    }
+  }
+  @media (max-width: 400px) {
+    .wordmark {
+      font-size: 19px;
     }
   }
 </style>

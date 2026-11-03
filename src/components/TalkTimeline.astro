@@ -1,15 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { FORMAT_LABELS, formatDate, isUpcoming } from "@/lib/dates.mjs";
-
 interface Props {
   talks: Array<CollectionEntry<"talks">["data"]>;
 }
-
 const { talks } = Astro.props;
 const LINK_LABELS = { video: "Video", page: "Session page", code: "Code" } as const;
-
-// Newest first, matching the talks page.
 const items = talks.map((talk) => ({
   talk,
   links: (Object.keys(LINK_LABELS) as Array<keyof typeof LINK_LABELS>).flatMap((key) => {
@@ -21,14 +17,13 @@ const items = talks.map((talk) => ({
 ---
 
 <ol class="timeline" role="list">
-  {items.map(({ talk, links, formatLabel }, index) => (
-    <li class:list={["talk", index % 2 === 0 ? "above" : "below"]} data-reveal="scroll">
-      <span class="dot" aria-hidden="true" />
-      <div class="card">
-        <p class="when meta">
-          <time datetime={talk.date}>{formatDate(talk.date)}</time>
-          {isUpcoming(talk.date) && <span class="upcoming">Upcoming</span>}
-        </p>
+  {items.map(({ talk, links, formatLabel }) => (
+    <li class="talk">
+      <p class="when meta">
+        <time datetime={talk.date}>{formatDate(talk.date)}</time>
+        {isUpcoming(talk.date) && <span class="upcoming">Upcoming</span>}
+      </p>
+      <div class="session-content">
         <h3>{talk.title}</h3>
         <p class="meta">{[talk.event, talk.location].join(", ")}</p>
         <p class="how meta">
@@ -44,171 +39,92 @@ const items = talks.map((talk) => ({
     </li>
   ))}
 </ol>
-
 <style>
   .timeline {
-    --axis: color-mix(in oklab, var(--accent) 40%, var(--line));
-    --stem: color-mix(in oklab, var(--accent) 28%, var(--line));
-    --dot: 14px;
-    --axis-width: 2px;
-  }
-
-  /* Phones and tablets: one vertical line on the left. */
-  .timeline {
-    position: relative;
-    display: grid;
-    gap: 32px;
-    padding-left: 32px;
     margin-top: 12px;
-  }
-  .timeline::before {
-    content: "";
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: calc(var(--dot) / 2 - var(--axis-width) / 2);
-    width: var(--axis-width);
-    border-radius: 2px;
-    background: linear-gradient(to bottom, var(--axis), var(--line));
   }
   .talk {
     position: relative;
-    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px 32px;
+    padding: 24px 0 24px 28px;
+    margin-left: 3px;
+    border-left: 1px solid var(--line);
   }
-  .dot {
+  .talk::before {
+    content: "";
     position: absolute;
-    top: 4px;
-    left: -32px;
-    width: var(--dot);
-    height: var(--dot);
+    top: 31px;
+    left: -4px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 0 4px var(--bg);
-    transition: transform 200ms var(--ease-out);
-  }
-  .talk:first-child .dot {
-    box-shadow:
-      0 0 0 4px var(--bg),
-      0 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent);
-  }
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
+    box-shadow: 0 0 0 5px var(--bg);
   }
   .when {
     display: flex;
-    gap: 10px;
-    align-items: baseline;
+    flex-wrap: wrap;
+    align-content: start;
+    gap: 4px 12px;
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
   }
-  .when time {
-    color: var(--accent);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
   .upcoming {
-    padding: 1px 8px;
-    border: 1px solid var(--accent);
-    border-radius: 999px;
     color: var(--accent);
-    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+  }
+  .session-content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
   h3 {
-    font-size: 19px;
-    font-weight: 500;
-    line-height: 1.3;
+    max-width: 45ch;
+    font-family: var(--font-serif);
+    font-size: clamp(24px, 2.1vw, 28px);
+    font-weight: 450;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-wrap: pretty;
   }
   .how {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 14px;
+    gap: 0 20px;
     align-items: center;
+    font-size: 13px;
   }
   .how a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
     color: var(--ink);
-    font-weight: 600;
+    font-weight: 550;
   }
   .how a:hover {
     color: var(--accent);
   }
-  .talk:hover .dot,
-  .talk:focus-within .dot {
-    transform: scale(1.25);
-  }
-
-  /* Wide screens: a horizontal line, cards alternating above and below it. */
-  @media (min-width: 1000px) {
-    .timeline {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      grid-template-rows: 1fr 36px 1fr;
-      gap: 0 24px;
-      padding-left: 0;
-      margin-top: 28px;
-    }
-    .timeline::before {
-      top: calc(50% - var(--axis-width) / 2);
-      bottom: auto;
-      left: 0;
-      right: 0;
-      width: auto;
-      height: var(--axis-width);
-      background: linear-gradient(to right, var(--axis), var(--line));
-    }
+  @media (min-width: 700px) {
     .talk {
-      grid-row: 1 / span 3;
-      display: grid;
-      grid-template-rows: subgrid;
+      grid-template-columns: 151px minmax(0, 1fr);
+      padding-block: 28px;
     }
-    .dot {
-      position: relative;
-      top: auto;
-      left: auto;
-      grid-row: 2;
-      align-self: center;
-      justify-self: start;
-      z-index: 1;
+    .talk::before {
+      top: 36px;
     }
-    .card {
-      position: relative;
-      margin-left: calc(var(--dot) / 2 - 1px);
-      padding-left: 18px;
-      border-left: 2px solid var(--stem);
-      transition: border-color 200ms var(--ease-out);
-      /* Cards on the same side sit two columns apart, so each can use the empty
-         column beside it. The last card stays inside the container. */
-      width: calc(175% + 24px);
+    .when {
+      padding-top: 3px;
     }
-    .talk:last-child .card {
-      width: auto;
+    .session-content {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
     }
-    .above .card {
-      grid-row: 1;
-      align-self: end;
-      padding-bottom: 12px;
-    }
-    .below .card {
-      grid-row: 3;
-      align-self: start;
-      padding-top: 12px;
-    }
-    .talk:hover .card,
-    .talk:focus-within .card {
-      border-left-color: var(--accent);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .dot,
-    .card {
-      transition: none;
+    .talk:last-child .session-content {
+      border: 0;
+      padding-bottom: 0;
     }
   }
 </style>
