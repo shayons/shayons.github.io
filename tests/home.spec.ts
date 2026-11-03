@@ -56,19 +56,27 @@ for (const viewport of [
     const stranded = await page.evaluate(() =>
       [...document.querySelectorAll(".hero h1 span, .hero .role")]
         .filter((element) => {
-          const tops: number[] = [];
+          // Words share a line when their vertical centres sit within half a line of each
+          // other. Comparing tops would split a line whose words mix roman and italic faces.
+          const lineOfEachWord: number[] = [];
+          let previousCentre = Number.NEGATIVE_INFINITY;
           const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
           for (let node = walker.nextNode(); node; node = walker.nextNode()) {
             for (const word of (node.textContent ?? "").matchAll(/\S+/g)) {
               const range = document.createRange();
               range.setStart(node, word.index);
               range.setEnd(node, word.index + word[0].length);
-              tops.push(Math.round(range.getBoundingClientRect().top));
+              const box = range.getBoundingClientRect();
+              const centre = box.top + box.height / 2;
+              const line = lineOfEachWord.at(-1) ?? 0;
+              const startsLine = Math.abs(centre - previousCentre) > box.height / 2;
+              lineOfEachWord.push(startsLine ? line + 1 : line);
+              previousCentre = centre;
             }
           }
-          const last = tops.at(-1);
-          const lines = new Set(tops).size;
-          return lines > 1 && tops.filter((top) => Math.abs(top - (last ?? 0)) < 2).length === 1;
+          const lastLine = lineOfEachWord.at(-1);
+          const wordsOnLastLine = lineOfEachWord.filter((line) => line === lastLine).length;
+          return (lastLine ?? 0) > 1 && wordsOnLastLine === 1;
         })
         .map((element) => element.textContent?.trim()),
     );

@@ -14,7 +14,7 @@ const years = groupByYear(posts);
   current="blog"
 >
   <div class="container page">
-    <header class="page-head">
+    <header class="page-head" data-reveal="load">
       <h1>Writing</h1>
       <p class="meta">
         {posts.length} articles on the AWS Database, Big Data, and Machine Learning blogs.
@@ -22,7 +22,7 @@ const years = groupByYear(posts);
     </header>
     {years.map(({ year, entries }) => (
       <section aria-labelledby={`year-${year}`}>
-        <h2 id={`year-${year}`} class="year">
+        <h2 id={`year-${year}`} class="year" data-rule>
           {year}
         </h2>
         <ul role="list">

@@ -17,7 +17,7 @@ const withWhom = talk.coPresenters ? `, with ${talk.coPresenters.join(" and ")}`
 const formatLabel = (FORMAT_LABELS as Record<string, string>)[talk.format];
 ---
 
-<li class="talk">
+<li class="talk" data-reveal="scroll">
   <p class="when meta">
     <time datetime={talk.date}>{formatDate(talk.date)}</time>
     {isUpcoming(talk.date) && <span class="upcoming">Upcoming</span>}
@@ -46,8 +46,7 @@ const formatLabel = (FORMAT_LABELS as Record<string, string>)[talk.format];
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 8px var(--column-gap);
-    padding-block: 28px;
-    border-bottom: 1px solid var(--line);
+    padding-block: 24px;
   }
   .when {
     display: flex;

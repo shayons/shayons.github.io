@@ -9,8 +9,8 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<li class="post">
-  <a href={post.url}>
+<li class="post" data-reveal="scroll">
+  <a class="soft-row" href={post.url}>
     <span class="text">
       <span class="title">{post.title}</span>
       <span class="meta">
@@ -24,15 +24,12 @@ const { post } = Astro.props;
 </li>
 
 <style>
-  .post {
-    border-bottom: 1px solid var(--line);
-  }
   .post a {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
-    padding: 24px 0;
+    padding-block: 24px;
     text-decoration: none;
   }
   .text {
@@ -47,6 +44,7 @@ const { post } = Astro.props;
     font-weight: 450;
     line-height: 1.3;
     text-wrap: pretty;
+    transition: color var(--duration-state) var(--ease-out);
   }
   .meta {
     font-size: 13px;
@@ -57,9 +55,18 @@ const { post } = Astro.props;
     margin-top: 3px;
     font-size: 18px;
     color: var(--muted);
+    transition:
+      color var(--duration-state) var(--ease-out),
+      transform var(--duration-state) var(--ease-out);
   }
   .post a:hover .title,
   .post a:hover .arrow {
     color: var(--accent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .post a:hover .arrow,
+    .post a:focus-visible .arrow {
+      transform: translate(3px, -3px);
+    }
   }
 </style>

@@ -3,7 +3,7 @@ import { SOCIALS } from "@/lib/site";
 ---
 
 <section id="contact" class="container contact" aria-labelledby="contact-title">
-  <div class="stack">
+  <div class="stack" data-reveal="scroll">
     <h2 id="contact-title">
       Let’s talk PostgreSQL, data, <em>and AI.</em>
     </h2>
@@ -25,9 +25,10 @@ import { SOCIALS } from "@/lib/site";
   .stack {
     display: flex;
     flex-direction: column;
-    gap: 28px;
-    padding-top: 40px;
-    border-top: 1px solid var(--ink);
+    gap: 32px;
+    padding: clamp(28px, 5vw, 64px);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
   }
   h2 {
     max-width: 20ch;
@@ -39,20 +40,31 @@ import { SOCIALS } from "@/lib/site";
     text-wrap: balance;
   }
   em {
-    font-style: normal;
+    color: var(--accent);
   }
   .socials {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 28px;
+    gap: 10px;
     font-size: 15px;
     font-weight: 550;
   }
   .socials a {
     display: inline-flex;
     align-items: center;
-    min-height: 44px;
-    text-underline-offset: 5px;
+    min-height: 48px;
+    padding: 12px 24px;
+    border: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+    border-radius: var(--radius-pill);
+    background: var(--raised);
+    text-decoration: none;
+    transition:
+      color 180ms ease-out,
+      border-color var(--duration-state) var(--ease-out),
+      background-color var(--duration-state) var(--ease-out);
+  }
+  .socials a:hover {
+    border-color: var(--accent);
   }
   @media (min-width: 900px) {
     .stack {
@@ -60,6 +72,9 @@ import { SOCIALS } from "@/lib/site";
       align-items: center;
       justify-content: space-between;
       gap: 48px;
+    }
+    .socials {
+      flex: none;
     }
   }
 </style>
