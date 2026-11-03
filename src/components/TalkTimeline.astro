@@ -46,21 +46,30 @@ const items = talks.map((talk) => ({
 </ol>
 
 <style>
+  .timeline {
+    --axis: color-mix(in oklab, var(--accent) 40%, var(--line));
+    --stem: color-mix(in oklab, var(--accent) 28%, var(--line));
+    --dot: 14px;
+    --axis-width: 2px;
+  }
+
   /* Phones and tablets: one vertical line on the left. */
   .timeline {
     position: relative;
     display: grid;
-    gap: 28px;
-    padding-left: 28px;
-    margin-top: 8px;
+    gap: 32px;
+    padding-left: 32px;
+    margin-top: 12px;
   }
   .timeline::before {
     content: "";
     position: absolute;
-    inset-block: 6px;
-    left: 5px;
-    width: 1px;
-    background: var(--line);
+    top: 8px;
+    bottom: 8px;
+    left: calc(var(--dot) / 2 - var(--axis-width) / 2);
+    width: var(--axis-width);
+    border-radius: 2px;
+    background: linear-gradient(to bottom, var(--axis), var(--line));
   }
   .talk {
     position: relative;
@@ -68,13 +77,19 @@ const items = talks.map((talk) => ({
   }
   .dot {
     position: absolute;
-    top: 6px;
-    left: -28px;
-    width: 11px;
-    height: 11px;
+    top: 4px;
+    left: -32px;
+    width: var(--dot);
+    height: var(--dot);
     border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--bg);
+    transition: transform 200ms var(--ease-out);
+  }
+  .talk:first-child .dot {
+    box-shadow:
+      0 0 0 4px var(--bg),
+      0 0 0 6px color-mix(in oklab, var(--accent) 35%, transparent);
   }
   .card {
     display: flex;
@@ -85,11 +100,23 @@ const items = talks.map((talk) => ({
   .when {
     display: flex;
     gap: 10px;
+    align-items: baseline;
     font-variant-numeric: tabular-nums;
   }
-  .upcoming {
+  .when time {
     color: var(--accent);
     font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .upcoming {
+    padding: 1px 8px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
   h3 {
     font-size: 19px;
@@ -112,23 +139,28 @@ const items = talks.map((talk) => ({
   .how a:hover {
     color: var(--accent);
   }
+  .talk:hover .dot,
+  .talk:focus-within .dot {
+    transform: scale(1.25);
+  }
 
   /* Wide screens: a horizontal line, cards alternating above and below it. */
   @media (min-width: 1000px) {
     .timeline {
-      grid-template-columns: repeat(var(--count, 5), minmax(0, 1fr));
-      grid-template-rows: 1fr 28px 1fr;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-rows: 1fr 36px 1fr;
       gap: 0 24px;
       padding-left: 0;
-      margin-top: 24px;
+      margin-top: 28px;
     }
     .timeline::before {
-      inset-block: auto;
-      top: 50%;
+      top: calc(50% - var(--axis-width) / 2);
+      bottom: auto;
       left: 0;
       right: 0;
       width: auto;
-      height: 1px;
+      height: var(--axis-width);
+      background: linear-gradient(to right, var(--axis), var(--line));
     }
     .talk {
       grid-row: 1 / span 3;
@@ -142,30 +174,41 @@ const items = talks.map((talk) => ({
       grid-row: 2;
       align-self: center;
       justify-self: start;
+      z-index: 1;
     }
     .card {
       position: relative;
-      padding-left: 16px;
-      border-left: 1px solid var(--line);
-    }
-    .above .card {
-      grid-row: 1;
-      align-self: end;
-      padding-bottom: 6px;
-    }
-    .below .card {
-      grid-row: 3;
-      align-self: start;
-      padding-top: 6px;
-    }
-    .card {
-      margin-left: 5px;
+      margin-left: calc(var(--dot) / 2 - 1px);
+      padding-left: 18px;
+      border-left: 2px solid var(--stem);
+      transition: border-color 200ms var(--ease-out);
       /* Cards on the same side sit two columns apart, so each can use the empty
          column beside it. The last card stays inside the container. */
       width: calc(175% + 24px);
     }
     .talk:last-child .card {
       width: auto;
+    }
+    .above .card {
+      grid-row: 1;
+      align-self: end;
+      padding-bottom: 12px;
+    }
+    .below .card {
+      grid-row: 3;
+      align-self: start;
+      padding-top: 12px;
+    }
+    .talk:hover .card,
+    .talk:focus-within .card {
+      border-left-color: var(--accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dot,
+    .card {
+      transition: none;
     }
   }
 </style>
