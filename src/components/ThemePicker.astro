@@ -26,8 +26,9 @@
   .theme-picker {
     min-inline-size: 0;
     margin: 0;
-    padding: 0;
-    border: 0;
+    padding: 2px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
   }
   .theme-picker:not([hidden]) {
     display: inline-flex;
@@ -38,7 +39,7 @@
     place-items: center;
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 3px;
     color: var(--muted);
     cursor: pointer;
   }
@@ -68,6 +69,7 @@
   }
   label:has(input:checked) {
     color: var(--accent);
+    background: var(--band);
   }
   label:has(input:checked) svg {
     stroke-width: 2;

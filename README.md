@@ -14,6 +14,11 @@ system icons save an override and apply it before the page paints. With JavaScri
 automatic theming and all content still work. Print uses the light palette. The build checks allow
 only the exact theme controller and reject other scripts or JavaScript assets.
 
+The presentation uses the existing Newsreader and Inter Tight typefaces, a restrained color
+accent, expandable case-study rows, a vertical speaking chronology, and distinct writing and
+project layouts. Content is visible immediately, including with JavaScript disabled. Only the
+hero heading has a brief entrance; reduced-motion and print views remain static.
+
 ## Develop
 
 Requires Node 26 (`nvm use` reads `.nvmrc`).
