@@ -34,7 +34,47 @@ test.describe("home hero", () => {
     await page.keyboard.press("Enter");
     await expect(page.locator("main")).toBeFocused();
   });
+
+  test("the primary action responds to hover", async ({ page }) => {
+    const action = page.locator(".hero .primary-link");
+    const background = () => action.evaluate((element) => getComputedStyle(element).background);
+    const idle = await background();
+    await action.hover();
+    await expect.poll(background).not.toBe(idle);
+  });
 });
+
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 390, height: 844 },
+]) {
+  test(`hero headline and role leave no word alone on a last line at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const stranded = await page.evaluate(() =>
+      [...document.querySelectorAll(".hero h1 span, .hero .role")]
+        .filter((element) => {
+          const tops: number[] = [];
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+            for (const word of (node.textContent ?? "").matchAll(/\S+/g)) {
+              const range = document.createRange();
+              range.setStart(node, word.index);
+              range.setEnd(node, word.index + word[0].length);
+              tops.push(Math.round(range.getBoundingClientRect().top));
+            }
+          }
+          const last = tops.at(-1);
+          const lines = new Set(tops).size;
+          return lines > 1 && tops.filter((top) => Math.abs(top - (last ?? 0)) < 2).length === 1;
+        })
+        .map((element) => element.textContent?.trim()),
+    );
+    expect(stranded).toEqual([]);
+  });
+}
 
 test.describe("selected work", () => {
   test("lists five engagements in order with the three-part structure", async ({ page }) => {
