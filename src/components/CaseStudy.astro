@@ -11,47 +11,96 @@ const numberLabel = String(number).padStart(2, "0");
 ---
 
 <article class="study">
-  <div class="who" data-reveal="scroll" style="--reveal-step: 0">
-    <span class="meta">{numberLabel}</span>
-    <p class="industry">{study.industry}</p>
-  </div>
-  <div class="body" data-reveal="scroll" style="--reveal-step: 1">
-    <h3>{study.headline}</h3>
-    <dl>
-      <div>
-        <dt>Challenge</dt>
-        <dd>{study.challenge}</dd>
+  <details>
+    <summary>
+      <div class="who" data-reveal="scroll" style="--reveal-step: 0">
+        <span class="number">{numberLabel}</span>
+        <p class="industry">{study.industry}</p>
       </div>
-      <div>
-        <dt>What I did</dt>
-        <dd>{study.action}</dd>
-      </div>
-      <div>
-        <dt>Result</dt>
-        <dd>{study.result}</dd>
-      </div>
-    </dl>
-  </div>
-  <ul
-    class="metrics"
-    role="list"
-    aria-label="Key results"
-    data-reveal="scroll"
-    style="--reveal-step: 2"
-  >
-    {study.metrics.map((metric) => (
-      <li>{metric}</li>
-    ))}
-  </ul>
+      <h3 data-reveal="scroll" style="--reveal-step: 1">
+        {study.headline}
+      </h3>
+      <ul
+        class="metrics"
+        role="list"
+        aria-label="Key results"
+        data-reveal="scroll"
+        style="--reveal-step: 2"
+      >
+        {study.metrics.map((metric) => (
+          <li>{metric}</li>
+        ))}
+      </ul>
+      <span class="toggle" aria-hidden="true">
+        <span class="open-label">Read the case study</span>
+        <span class="close-label">Close</span>
+        <span class="icon"></span>
+      </span>
+    </summary>
+    <div class="body">
+      <dl>
+        <div>
+          <dt>Challenge</dt>
+          <dd>{study.challenge}</dd>
+        </div>
+        <div>
+          <dt>What I did</dt>
+          <dd>{study.action}</dd>
+        </div>
+        <div>
+          <dt>Result</dt>
+          <dd>{study.result}</dd>
+        </div>
+      </dl>
+    </div>
+  </details>
 </article>
 
 <style>
   .study {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px var(--column-gap);
-    padding-block: 36px;
-    border-bottom: 1px solid var(--line);
+    height: 100%;
+  }
+  details {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--card);
+    transition:
+      border-color 220ms var(--ease-out),
+      box-shadow 220ms var(--ease-out),
+      transform 220ms var(--ease-out);
+  }
+  details:hover,
+  details:has(summary:focus-visible) {
+    border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+    box-shadow: 0 18px 40px -24px color-mix(in oklab, var(--ink) 35%, transparent);
+    transform: translateY(-2px);
+  }
+  details[open] summary {
+    flex: none;
+  }
+  details[open] {
+    border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+    transform: none;
+  }
+  summary {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 18px;
+    padding: 28px;
+    cursor: pointer;
+    border-radius: 16px;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
   }
   .who {
     display: flex;
@@ -59,70 +108,122 @@ const numberLabel = String(number).padStart(2, "0");
     gap: 12px;
     font-family: var(--font-sans);
   }
-  .industry {
-    font-size: 16px;
-    font-weight: 600;
+  .number {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    line-height: 1;
+    color: var(--accent);
   }
-  .body {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .industry {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
   h3 {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 500;
-    line-height: 1.2;
-    text-wrap: balance;
+    line-height: 1.22;
+    text-wrap: pretty;
+  }
+  .metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .metrics li {
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--accent) 9%, transparent);
+    color: var(--ink);
+  }
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 6px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .icon {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    transition: transform 220ms var(--ease-out);
+  }
+  .icon::before,
+  .icon::after {
+    content: "";
+    position: absolute;
+    inset: 5px 0 auto;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+  .icon::after {
+    transform: rotate(90deg);
+  }
+  details[open] .icon {
+    transform: rotate(45deg);
+  }
+  .close-label {
+    display: none;
+  }
+  details[open] .open-label {
+    display: none;
+  }
+  details[open] .close-label {
+    display: inline;
+  }
+  .body {
+    padding: 0 28px 32px;
   }
   dl {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    display: grid;
+    gap: 20px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
     font-size: 18px;
     line-height: 1.55;
   }
   dt {
     font-family: var(--font-sans);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--accent);
   }
   dd {
-    max-width: 65ch;
-    margin-top: 2px;
+    max-width: 68ch;
+    margin-top: 4px;
     color: var(--ink-2);
   }
-  .metrics {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-family: var(--font-sans);
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.5;
-  }
-  @media (min-width: 640px) {
-    .study {
-      grid-template-columns: var(--aside-width) minmax(0, 1fr);
-      padding-block: 40px;
+  @media (min-width: 900px) {
+    dl {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px;
     }
-    .who {
-      flex-direction: column;
-      gap: 8px;
-    }
-    .metrics {
-      grid-column: 2;
+    dd {
+      font-size: 17px;
     }
   }
-  @media (min-width: 1100px) {
-    .study {
-      grid-template-columns: var(--aside-width) minmax(0, 1fr) 200px;
+  @media (prefers-reduced-motion: reduce) {
+    details,
+    .icon {
+      transition: none;
     }
-    .metrics {
-      grid-column: 3;
+    details:hover,
+    details:has(summary:focus-visible) {
+      transform: none;
     }
   }
 </style>

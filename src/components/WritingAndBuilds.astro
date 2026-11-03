@@ -25,14 +25,23 @@ const projects = (await getCollection("projects"))
     <SectionHeading id="builds-title" title="Builds" />
     <ul class="builds" role="list">
       {projects.map((project) => (
-        <li data-reveal="scroll">
-          {project.url ? (
-            <a class="name" href={project.url}>
-              {project.name}
-            </a>
-          ) : (
-            <span class="name">{project.name}</span>
-          )}
+        <li class:list={["build", { linked: Boolean(project.url) }]} data-reveal="scroll">
+          <div class="build-head">
+            {project.url ? (
+              <a class="name" href={project.url}>
+                {project.name}
+              </a>
+            ) : (
+              <span class="name">{project.name}</span>
+            )}
+            {project.url ? (
+              <span class="tag" aria-hidden="true">
+                GitHub ↗
+              </span>
+            ) : (
+              <span class="tag internal">Internal</span>
+            )}
+          </div>
           <p class="meta">{project.description}</p>
         </li>
       ))}
@@ -50,37 +59,94 @@ const projects = (await getCollection("projects"))
   .column {
     min-width: 0;
   }
-  .builds li {
+  .builds {
+    display: grid;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .build {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding-block: 24px;
-    border-bottom: 1px solid var(--line);
+    gap: 10px;
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+    transition:
+      border-color 200ms var(--ease-out),
+      box-shadow 200ms var(--ease-out),
+      transform 200ms var(--ease-out);
+  }
+  .build.linked:hover,
+  .build.linked:focus-within {
+    border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+    box-shadow: 0 14px 32px -22px color-mix(in oklab, var(--ink) 35%, transparent);
+    transform: translateY(-2px);
+  }
+  .build-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
   .name {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-block: -8px;
     font-size: 22px;
     line-height: 1.3;
+    color: var(--ink);
+    text-decoration: none;
   }
-  .builds a.name {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    align-self: flex-start;
-    margin-block: -8px;
+  /* The whole card is the link target; the name stays the accessible link text. */
+  .build a.name::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
   }
-  .builds span.name {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    align-self: flex-start;
-    margin-block: -8px;
+  .build a.name:focus-visible {
+    outline: none;
   }
-  .builds .meta {
+  .build:has(a.name:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  .build.linked:hover .name {
+    color: var(--accent);
+  }
+  .tag {
+    flex: none;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 9%, transparent);
+  }
+  .tag.internal {
+    color: var(--muted);
+    background: color-mix(in oklab, var(--muted) 12%, transparent);
+  }
+  .build .meta {
     line-height: 1.5;
   }
   @media (min-width: 960px) {
     .split {
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .build {
+      transition: none;
+    }
+    .build.linked:hover,
+    .build.linked:focus-within {
+      transform: none;
     }
   }
 </style>

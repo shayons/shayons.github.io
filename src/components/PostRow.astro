@@ -11,27 +11,68 @@ const { post } = Astro.props;
 
 <li class="post" data-reveal="scroll">
   <a href={post.url}>
-    <span class="title">{post.title}</span>
-    <span class="meta">
-      <time datetime={post.date}>{formatMonth(post.date)}</time>, {post.publication}
+    <span class="text">
+      <span class="title">{post.title}</span>
+      <span class="meta">
+        <time datetime={post.date}>{formatMonth(post.date)}</time>, {post.publication}
+      </span>
+    </span>
+    <span class="arrow" aria-hidden="true">
+      ↗
     </span>
   </a>
 </li>
 
 <style>
+  .post {
+    border-bottom: 1px solid var(--line);
+  }
   .post a {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 6px -16px;
+    padding: 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background-color 200ms var(--ease-out);
+  }
+  .text {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding-block: 24px;
-    border-bottom: 1px solid var(--line);
-    text-decoration: none;
+    min-width: 0;
   }
   .title {
-    font-size: 22px;
+    font-size: 21px;
     line-height: 1.3;
   }
+  .arrow {
+    flex: none;
+    margin-top: 2px;
+    font-family: var(--font-sans);
+    font-size: 18px;
+    color: var(--muted);
+    transition:
+      transform 200ms var(--ease-out),
+      color 200ms var(--ease-out);
+  }
+  .post a:hover {
+    background: var(--card);
+  }
   .post a:hover .title {
-    text-decoration: underline;
+    color: var(--accent);
+  }
+  .post a:hover .arrow,
+  .post a:focus-visible .arrow {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .post a,
+    .arrow {
+      transition: none;
+    }
   }
 </style>

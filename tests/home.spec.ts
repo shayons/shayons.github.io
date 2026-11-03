@@ -25,7 +25,7 @@ test.describe("home hero", () => {
     const hrefs = await nav
       .getByRole("link")
       .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
-    expect(hrefs).toEqual(["/#work", "/#approach", "/talks/", "/blog/", "/#contact"]);
+    expect(hrefs).toEqual(["/#work", "/talks/", "/blog/", "/#contact"]);
   });
 
   test("the skip link moves focus to the main content", async ({ page }) => {
@@ -48,26 +48,22 @@ test.describe("selected work", () => {
     }
   });
 
+  test("a card opens to show its full story and closes again", async ({ page }) => {
+    await page.goto("/");
+    const card = page.locator("#work article").first();
+    const challenge = card.locator("dd").first();
+    await expect(challenge).toBeHidden();
+    await card.locator("summary").click();
+    await expect(challenge).toBeVisible();
+    await card.locator("summary").click();
+    await expect(challenge).toBeHidden();
+  });
+
   test("names no customers and links nowhere", async ({ page }) => {
     await page.goto("/");
     const text = await page.locator("#work").innerText();
     expect(text).not.toMatch(/\b(Netflix|Ring)\b/);
     await expect(page.locator("#work a")).toHaveCount(0);
-  });
-});
-
-test.describe("approach", () => {
-  test("states the principle and four numbered steps without separators", async ({ page }) => {
-    await page.goto("/");
-    const section = page.locator("#approach");
-    await expect(section.getByRole("heading", { level: 2 })).toHaveText("How I work.");
-    await expect(section.locator(".step-number")).toHaveText(["01", "02", "03", "04"]);
-    await expect(section.locator(".step-label")).toHaveText([
-      "01 Discover",
-      "02 Evaluate",
-      "03 Build",
-      "04 Ship",
-    ]);
   });
 });
 

@@ -21,7 +21,7 @@ for (const width of [768, 1024]) {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
     for (const [description, supporting] of [
-      [".study .body", ".study .metrics"],
+      [".study h3", ".study .metrics"],
       [".talk h3", ".talk .how"],
     ]) {
       const main = await page.locator(description).first().boundingBox();
@@ -30,18 +30,6 @@ for (const width of [768, 1024]) {
       expect(details).not.toBeNull();
       expect(Math.abs(main!.x - details!.x)).toBeLessThanOrEqual(1);
     }
-  });
-
-  test(`the four approach steps form two balanced rows at ${width}px`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 900 });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/");
-    const tops = await page
-      .locator("#approach .steps li")
-      .evaluateAll((items) => items.map((item) => Math.round(item.getBoundingClientRect().top)));
-    expect(tops[0]).toBe(tops[1]);
-    expect(tops[2]).toBe(tops[3]);
-    expect(tops[2]).toBeGreaterThan(tops[0]);
   });
 }
 
@@ -53,6 +41,6 @@ test("nav, hero, and contact links are at least 44px tall on a phone", async ({ 
   const heights = await page
     .locator(selector)
     .evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().height));
-  expect(heights).toHaveLength(14);
+  expect(heights).toHaveLength(13);
   for (const height of heights) expect(height).toBeGreaterThanOrEqual(44);
 });
